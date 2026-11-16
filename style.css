@@ -20,6 +20,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Montserrat', sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -67,9 +68,11 @@ body {
     color: var(--accent);
 }
 
+/* === NAVBAR === */
 .navbar {
-    background: rgba(18, 18, 21, 0.8);
+    background: rgba(18, 18, 21, 0.85);
     backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
@@ -130,10 +133,6 @@ body {
     transition: 0.2s ease-out;
 }
 
-.nav-links a:hover {
-    color: var(--text-main);
-}
-
 .nav-right {
     display: flex;
     align-items: center;
@@ -162,6 +161,7 @@ body {
     background: #22c55e;
     border-radius: 50%;
     box-shadow: 0 0 10px #22c55e;
+    flex-shrink: 0;
 }
 
 .ip-header-btn {
@@ -175,10 +175,6 @@ body {
     cursor: pointer;
     color: var(--text-main);
     transition: 0.2s ease-out;
-}
-
-.ip-header-btn:hover {
-    border-color: var(--accent);
 }
 
 .ip-header-meta {
@@ -210,6 +206,7 @@ body {
     justify-content: center;
 }
 
+/* === HERO BANNER === */
 .hero-banner {
     margin-top: 28px;
     background: linear-gradient(135deg, rgba(35, 37, 46, 0.9) 0%, rgba(22, 23, 29, 0.95) 100%);
@@ -250,19 +247,16 @@ body {
     box-shadow: 0 0 18px rgba(255, 123, 0, 0.15);
 }
 
-
 .version-badge {
     background: rgba(255, 205, 0, 0.14) !important;
     color: var(--accent) !important;
     border: 1px solid rgba(255, 205, 0, 0.35) !important;
 }
 
-
 .season-badge svg {
     flex-shrink: 0;
     filter: drop-shadow(0 0 6px rgba(255, 123, 0, 0.6));
 }
-
 
 .hero-content h1 {
     font-size: 40px;
@@ -301,10 +295,8 @@ body {
     justify-content: center;
 }
 
-.btn-primary:hover {
-    background: var(--accent-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 205, 0, 0.25);
+.btn-primary:active {
+    transform: scale(0.97);
 }
 
 .hero-ip-box {
@@ -317,10 +309,6 @@ body {
     gap: 16px;
     cursor: pointer;
     transition: 0.2s ease-out;
-}
-
-.hero-ip-box:hover {
-    border-color: var(--accent);
 }
 
 .hero-ip-text {
@@ -348,24 +336,12 @@ body {
     justify-content: center;
 }
 
-.hero-svg-art {
-    width: 160px;
-    height: 160px;
-    filter: drop-shadow(0 10px 25px rgba(255, 205, 0, 0.3));
-}
-
-.hero-art-caption {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-muted);
-    margin-top: 8px;
-}
-
-/* === ДИНАМИЧЕСКОЕ СВЕЧЕНИЕ (GLOW OUTLINE) БЛОКА ВАЛЮТЫ === */
+/* === ДИНАМИЧЕСКОЕ СВЕЧЕНИЕ БЛОКА ВАЛЮТЫ === */
 .currency-section {
     margin-top: 28px;
     background: var(--bg-surface);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     padding: 30px;
@@ -402,6 +378,7 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 24px;
+    flex-shrink: 0;
 }
 
 .currency-title-block h2 {
@@ -516,6 +493,7 @@ input[type="range"]::-webkit-slider-thumb {
     transition: 0.2s ease-out;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
 }
 
@@ -526,11 +504,6 @@ input[type="range"]::-webkit-slider-thumb {
     font-weight: 800;
     padding: 2px 6px;
     border-radius: 5px;
-}
-
-.preset-btn:hover {
-    color: var(--text-main);
-    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .preset-btn.active {
@@ -581,7 +554,6 @@ input[type="range"]::-webkit-slider-thumb {
     border-color: var(--accent);
 }
 
-/* Плавное изменение ширины правого блока при появлении бонуса */
 .coins-output-box {
     background: var(--bg-input);
     border: 1px solid var(--border);
@@ -597,46 +569,9 @@ input[type="range"]::-webkit-slider-thumb {
     font-weight: 800;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
-    
-    /* Главное: анимируем изменение ширины, чтобы блок рос плавно */
     transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s ease;
     overflow: hidden;
 }
-
-
-#coins-big-display,
-#coins-total-val {
-    display: inline-block;
-    will-change: filter;
-    transition: filter 0.08s ease-out;
-}
-
-#coins-big-display.is-blurring,
-#coins-total-val.is-blurring {
-    filter: blur(0px 5px); /* Чистый вертикальный блюр */
-}
-/* Эффект динамического размытия при быстром счете */
-/* Динамическое вертикальное размытие только для меняющейся цифры */
-.digit-roller {
-    display: inline-flex;
-    align-items: center;
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
-}
-
-/* Отдельные цифры с разной силой вертикального блюра */
-.digit-char {
-    display: inline-block;
-    will-change: filter;
-    transition: filter 0.08s ease-out;
-}
-
-/* Уровни размытия от слабого (1) к сильному (5) */
-.digit-blur-1 { filter: blur(0px 1px); }
-.digit-blur-2 { filter: blur(0px 2.5px); }
-.digit-blur-3 { filter: blur(0px 4px); }
-.digit-blur-4 { filter: blur(0px 6px); }
-.digit-blur-5 { filter: blur(0px 8px); }
 
 .coins-total-val {
     font-size: 16px;
@@ -655,7 +590,6 @@ input[type="range"]::-webkit-slider-thumb {
     margin-top: 18px;
 }
 
-/* Пропорциональный рост и сочный Outline Glow */
 .buy-btn-wrapper {
     position: relative;
     display: inline-flex;
@@ -674,8 +608,6 @@ input[type="range"]::-webkit-slider-thumb {
     overflow: visible;
 }
 
-/* === КНОПКА ПОКУПКИ И ЕЭ ЭФФЕКТЫ === */
-
 .btn-currency-buy {
     position: relative;
     z-index: 2;
@@ -684,15 +616,11 @@ input[type="range"]::-webkit-slider-thumb {
     transform-origin: center;
 }
 
-/* --- ТИРЫ ЭФФЕКТОВ (ПОШАГОВО) --- */
-
-/* 5% (+500 ₽): Только легкое увеличение и базовое свечение */
 .btn-currency-buy.tier-5 {
     transform: scale(1.03);
     box-shadow: 0 0 20px rgba(255, 205, 0, 0.35);
 }
 
-/* 10% (+1000 ₽): Добавляем пульсацию */
 .btn-currency-buy.tier-10 {
     --base-scale: 1.05;
     transform: scale(1.05);
@@ -700,7 +628,6 @@ input[type="range"]::-webkit-slider-thumb {
     animation: btnGlowPulse 1.8s infinite ease-in-out;
 }
 
-/* 15% (+2000 ₽): Добавляем плавный блик */
 .btn-currency-buy.tier-15 {
     --base-scale: 1.08;
     transform: scale(1.08);
@@ -708,7 +635,6 @@ input[type="range"]::-webkit-slider-thumb {
     animation: btnGlowPulse 1.4s infinite ease-in-out;
 }
 
-/* 20% (+3500 ₽): Добавляем ударную волну */
 .btn-currency-buy.tier-20 {
     --base-scale: 1.11;
     transform: scale(1.11);
@@ -716,7 +642,6 @@ input[type="range"]::-webkit-slider-thumb {
     animation: btnGlowPulse 1.1s infinite ease-in-out;
 }
 
-/* 25% (+5000 ₽): Максимум (все эффекты быстрее и ярче) */
 .btn-currency-buy.tier-25 {
     --base-scale: 1.15;
     transform: scale(1.15);
@@ -724,26 +649,17 @@ input[type="range"]::-webkit-slider-thumb {
     animation: btnGlowPulse 0.8s infinite ease-in-out;
 }
 
-/* Пульсация кнопки */
 @keyframes btnGlowPulse {
     0%, 100% { transform: scale(var(--base-scale, 1)); filter: brightness(1); }
     50%      { transform: scale(calc(var(--base-scale, 1) + 0.03)); filter: brightness(1.12); }
 }
-
-
-/* --- СВЕТОВОЙ БЛИК (включается с 15% и выше) --- */
 
 .btn-currency-buy::after {
     content: '';
     position: absolute;
     inset: 0;
     border-radius: var(--radius-md);
-    background: linear-gradient(
-        115deg,
-        transparent 30%,
-        rgba(255, 255, 255, 0.4) 50%,
-        transparent 70%
-    );
+    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%);
     background-size: 200% 100%;
     pointer-events: none;
     opacity: 0;
@@ -760,9 +676,6 @@ input[type="range"]::-webkit-slider-thumb {
     70%, 100% { background-position: -150% 0; opacity: 0; }
 }
 
-
-/* --- УДАРНАЯ ВОЛНА (включается с 20% и 25%) --- */
-
 .btn-shockwave {
     position: absolute;
     inset: 0;
@@ -778,9 +691,6 @@ input[type="range"]::-webkit-slider-thumb {
     0%   { transform: scale(1); opacity: 1; }
     100% { transform: scale(1.35, 1.6); opacity: 0; }
 }
-
-
-/* --- ВЕКТОРНЫЕ ПАРТИКЛЫ --- */
 
 .buy-particle {
     position: absolute;
@@ -804,18 +714,15 @@ input[type="range"]::-webkit-slider-thumb {
         transform: translate(-50%, -50%) scale(0.2) rotate(var(--r-start, 0deg));
         opacity: 0;
     }
-    20% {
-        opacity: 1;
-    }
-    80% {
-        opacity: 0.85;
-    }
+    20% { opacity: 1; }
+    80% { opacity: 0.85; }
     100% {
         transform: translate(calc(-50% + var(--p-x)), calc(-50% + var(--p-y))) scale(1.05) rotate(var(--r-end, 90deg));
         opacity: 0;
     }
 }
 
+/* === SHOP === */
 .shop-wrapper {
     margin-top: 44px;
     margin-bottom: 70px;
@@ -845,6 +752,11 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: var(--radius-md);
     overflow-x: auto;
     max-width: 100%;
+    scrollbar-width: none;
+}
+
+.recent-purchases::-webkit-scrollbar {
+    display: none;
 }
 
 .recent-label {
@@ -886,6 +798,7 @@ input[type="range"]::-webkit-slider-thumb {
 .categories-sidebar {
     background: var(--bg-surface);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     padding: 18px;
@@ -919,11 +832,12 @@ input[type="range"]::-webkit-slider-thumb {
     align-items: center;
     gap: 12px;
     transition: 0.2s ease-out;
+    white-space: nowrap;
 }
 
-.cat-btn:hover {
-    background: var(--bg-input);
-    color: var(--text-main);
+.cat-btn svg {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
 }
 
 .cat-btn.active {
@@ -998,12 +912,6 @@ input[type="range"]::-webkit-slider-thumb {
     }
 }
 
-.product-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 205, 0, 0.5);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
-}
-
 .badge-tag {
     position: absolute;
     top: 22px;
@@ -1036,6 +944,11 @@ input[type="range"]::-webkit-slider-thumb {
     height: 58%;
     transform-origin: center;
     will-change: transform, filter;
+    transition: filter 0.35s ease;
+    overflow: visible !important;
+}
+
+.anim-fusion svg {
     transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
 }
 
@@ -1089,15 +1002,17 @@ input[type="range"]::-webkit-slider-thumb {
     transition: 0.2s ease-out;
 }
 
-.btn-card-buy:hover {
-    background: var(--accent-hover);
+.btn-card-buy:active {
+    transform: scale(0.96);
 }
 
+/* === MODAL === */
 .modal-overlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.82);
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     display: none;
     align-items: center;
     justify-content: center;
@@ -1134,15 +1049,14 @@ input[type="range"]::-webkit-slider-thumb {
     background: var(--bg-input);
     border: none;
     color: var(--text-muted);
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     border-radius: 8px;
     font-size: 20px;
     cursor: pointer;
-}
-
-.modal-close:hover {
-    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-title {
@@ -1171,10 +1085,6 @@ input[type="range"]::-webkit-slider-thumb {
     font-weight: 800;
     cursor: pointer;
     transition: 0.2s ease-out;
-}
-
-.switch-opt:hover {
-    color: var(--text-main);
 }
 
 .switch-opt.active {
@@ -1210,6 +1120,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .order-details {
     flex-grow: 1;
+    min-width: 0;
 }
 
 .order-cat {
@@ -1288,11 +1199,6 @@ input[type="range"]::-webkit-slider-thumb {
     font-weight: 700;
 }
 
-.qty-preset-btn:hover {
-    color: var(--text-main);
-    border-color: rgba(255, 255, 255, 0.25);
-}
-
 .qty-preset-btn.active {
     background: var(--accent);
     border-color: var(--accent);
@@ -1310,8 +1216,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .qty-step-btn {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     background: var(--bg-input);
     border: 1px solid var(--border);
     color: var(--text-main);
@@ -1322,20 +1228,15 @@ input[type="range"]::-webkit-slider-thumb {
     transition: 0.15s ease-out;
 }
 
-.qty-step-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-}
-
 #case-qty-input {
     flex: 1;
-    height: 40px;
+    height: 44px;
     background: var(--bg-input);
     border: 1px solid var(--border);
     color: var(--text-main);
     border-radius: var(--radius-sm);
     text-align: center;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 800;
     outline: none;
 }
@@ -1363,7 +1264,7 @@ input[type="range"]::-webkit-slider-thumb {
     color: var(--text-main);
     padding: 13px 14px;
     border-radius: var(--radius-sm);
-    font-size: 14px;
+    font-size: 16px;
     outline: none;
 }
 
@@ -1390,8 +1291,9 @@ input[type="range"]::-webkit-slider-thumb {
 .checkbox-label input {
     margin-top: 2px;
     accent-color: var(--accent);
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
 }
 
 .checkbox-label a {
@@ -1403,6 +1305,7 @@ input[type="range"]::-webkit-slider-thumb {
     width: 100%;
 }
 
+/* === FOOTER === */
 .footer {
     border-top: 1px solid var(--border);
     padding: 32px 0;
@@ -1426,16 +1329,13 @@ input[type="range"]::-webkit-slider-thumb {
 .footer-links {
     display: flex;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .footer-links a {
     color: var(--text-muted);
     font-size: 13px;
     text-decoration: none;
-}
-
-.footer-links a:hover {
-    color: var(--accent);
 }
 
 .toast {
@@ -1460,76 +1360,7 @@ input[type="range"]::-webkit-slider-thumb {
     transform: translateY(0);
 }
 
-@media (max-width: 960px) {
-    .hero-banner {
-        grid-template-columns: 1fr;
-    }
-    .shop-layout {
-        grid-template-columns: 1fr;
-    }
-    .categories-sidebar {
-        position: static;
-        flex-direction: row;
-        overflow-x: auto;
-    }
-    .nav-links, .online-pill {
-        display: none;
-    }
-}
-
-/* === БАЗОВЫЕ ПЛАВНЫЕ ПЕРЕХОДЫ ДЛЯ ВСЕХ SVG === */
-/* Базовый стиль для SVG в карточках */
-.product-art svg {
-    transform-origin: center;
-    will-change: transform, filter;
-    transition: filter 0.35s ease;
-}
-
-.product-art svg {
-    overflow: visible !important;
-}
-
-
-.product-card:hover .product-art svg {
-    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.75));
-}
-
-.product-card:hover .anim-fusion svg {
-    transform: scale(1.15);
-}
-
-.anim-fusion svg {
-    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
-}
-
-/* Подключаем пиксельный шрифт в стиле Minecraft (например, Press Start 2P) */
-/* Подключаем пиксельный шрифт Minecraft (если еще не подключен) */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-/* Базовый класс для рангов персонала с пиксельным шрифтом и тенью */
-/* Убираем пиксельный шрифт, делаем нормальный жирный шрифт с градиентом и тенью */
-.staff-rank-title {
-    font-family: 'Montserrat', sans-serif !important;
-    font-size: 13px;
-    font-weight: 900;
-    text-transform: uppercase;
-    display: inline-block;
-    padding: 1px 4px;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    letter-spacing: 0.5px;
-}
-
-/* Уникальные градиенты для каждого ранга (от младших к старшим по группам) */
-.role-helper        { background-image: linear-gradient(135deg, #2dd4bf, #0d9488); }
-.role-senior-helper { background-image: linear-gradient(135deg, #34d399, #059669); }
-.role-moderator     { background-image: linear-gradient(135deg, #38bdf8, #0284c7); }
-.role-senior-moderator { background-image: linear-gradient(135deg, #818cf8, #4f46e5); }
-.role-chief-moderator  { background-image: linear-gradient(135deg, #c084fc, #7e22ce); }
-.role-curator       { background-image: linear-gradient(135deg, #f59e0b, #b45309); }
-
-
+/* === ДЕКОР В БАННЕРЕ === */
 .decor-wave-card {
     position: relative;
     min-height: 220px;
@@ -1540,7 +1371,6 @@ input[type="range"]::-webkit-slider-thumb {
     justify-content: center;
 }
 
-/* Расходящиеся волны HyperWave */
 .wave-ring {
     position: absolute;
     width: 80px;
@@ -1558,20 +1388,11 @@ input[type="range"]::-webkit-slider-thumb {
 .wave-ring-3 { animation-delay: -2.66s; }
 
 @keyframes hyperWavePulse {
-    0% {
-        transform: scale(0.75);
-        opacity: 0;
-    }
-    15% {
-        opacity: 0.75;
-    }
-    100% {
-        transform: scale(3.3);
-        opacity: 0;
-    }
+    0%   { transform: scale(0.75); opacity: 0; }
+    15%  { opacity: 0.75; }
+    100% { transform: scale(3.3); opacity: 0; }
 }
 
-/* Парящий кристалл в центре */
 .decor-core {
     position: relative;
     z-index: 2;
@@ -1581,10 +1402,9 @@ input[type="range"]::-webkit-slider-thumb {
 
 @keyframes coreLevitate {
     0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-7px) scale(1.05); }
+    50%      { transform: translateY(-7px) scale(1.05); }
 }
 
-/* Мелкие световые частицы вокруг */
 .decor-spark {
     position: absolute;
     width: 4px;
@@ -1603,129 +1423,591 @@ input[type="range"]::-webkit-slider-thumb {
 
 @keyframes sparkFloat {
     0%, 100% { transform: translateY(0) scale(0.8); opacity: 0.3; }
-    50% { transform: translateY(-8px) scale(1.3); opacity: 0.9; }
+    50%      { transform: translateY(-8px) scale(1.3); opacity: 0.9; }
 }
 
-.cat-btn svg {
-    flex-shrink: 0;
-    transition: transform 0.2s ease;
-}
-
-.cat-btn:hover svg {
-    transform: scale(1.1);
-}
-
-/* === ПОЛНОЭКРАННЫЙ ОВЕРЛЕЙ ПРИ СМЕНЕ КАТЕГОРИИ === */
-/* === ПОЛНОЭКРАННЫЙ ОВЕРЛЕЙ ПРИ СМЕНЕ КАТЕГОРИИ === */
-.cat-splash-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(12, 13, 16, 0.78);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    pointer-events: none;
-    opacity: 0;
-}
-
-.cat-splash-overlay.active {
-    animation: splashFadeOverlay 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-@keyframes splashFadeOverlay {
-    0%   { opacity: 0; }
-    18%  { opacity: 1; }
-    72%  { opacity: 1; }
-    100% { opacity: 0; }
-}
-
-.cat-splash-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    color: #9295a3; /* Благородный сероватый оттенок в стиль сайта */
-}
-
-.cat-splash-icon {
-    width: 76px;
-    height: 76px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.5));
-}
-
-.cat-splash-icon svg {
-    width: 100%;
-    height: 100%;
-}
-
-.cat-splash-title {
-    font-size: 20px;
+/* === РАНГИ ПЕРСОНАЛА (RULES) === */
+.staff-rank-title {
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: 13px;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #9295a3;
-    animation: splashTextSlide 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    display: inline-block;
+    padding: 1px 4px;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.5px;
 }
 
-@keyframes splashTextSlide {
-    0%   { opacity: 0; transform: translateY(10px); }
-    22%  { opacity: 1; transform: translateY(0); }
-    75%  { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(-6px); }
+.role-helper           { background-image: linear-gradient(135deg, #2dd4bf, #0d9488); }
+.role-senior-helper    { background-image: linear-gradient(135deg, #34d399, #059669); }
+.role-moderator        { background-image: linear-gradient(135deg, #38bdf8, #0284c7); }
+.role-senior-moderator { background-image: linear-gradient(135deg, #818cf8, #4f46e5); }
+.role-chief-moderator  { background-image: linear-gradient(135deg, #c084fc, #7e22ce); }
+.role-curator          { background-image: linear-gradient(135deg, #f59e0b, #b45309); }
+
+/* === HOVER ТОЛЬКО ДЛЯ УСТРОЙСТВ С МЫШЬЮ (ПК) === */
+@media (hover: hover) and (pointer: fine) {
+    .nav-links a:hover {
+        color: var(--text-main);
+    }
+    .ip-header-btn:hover {
+        border-color: var(--accent);
+    }
+    .btn-primary:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 205, 0, 0.25);
+    }
+    .hero-ip-box:hover {
+        border-color: var(--accent);
+    }
+    .preset-btn:hover {
+        color: var(--text-main);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+    .cat-btn:hover {
+        background: var(--bg-input);
+        color: var(--text-main);
+    }
+    .cat-btn:hover svg {
+        transform: scale(1.1);
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(255, 205, 0, 0.5);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+    .product-card:hover .product-art svg {
+        filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.75));
+    }
+    .product-card:hover .anim-fusion svg {
+        transform: scale(1.15);
+    }
+    .btn-card-buy:hover {
+        background: var(--accent-hover);
+    }
+    .modal-close:hover {
+        color: var(--text-main);
+    }
+    .switch-opt:hover {
+        color: var(--text-main);
+    }
+    .qty-preset-btn:hover {
+        color: var(--text-main);
+        border-color: rgba(255, 255, 255, 0.25);
+    }
+    .qty-step-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+    .footer-links a:hover {
+        color: var(--accent);
+    }
 }
 
-/* 1. Анимация "Все товары" (Плитки каталога) */
-.splash-all svg {
-    animation: animSplashAll 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-@keyframes animSplashAll {
-    0%   { transform: scale(0.5) rotate(-25deg); opacity: 0; }
-    35%  { transform: scale(1.1) rotate(5deg); opacity: 1; }
-    65%  { transform: scale(1) rotate(0deg); opacity: 1; }
-    100% { transform: scale(0.92) rotate(0deg); opacity: 0; }
+/* === МОБИЛЬНЫЙ НИЖНИЙ ТАБ-БАР (СКРЫТ НА ПК) === */
+.mobile-tabbar {
+    display: none;
 }
 
-/* 2. Анимация "Привилегии" (Корона) */
-.splash-privileges svg {
-    animation: animSplashCrown 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-@keyframes animSplashCrown {
-    0%   { transform: translateY(18px) scale(0.6) rotate(-10deg); opacity: 0; }
-    35%  { transform: translateY(-6px) scale(1.12) rotate(6deg); opacity: 1; }
-    60%  { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(-8px) scale(0.95); opacity: 0; }
-}
-
-/* 3. Анимация "Кейсы" (Сундук) */
-.splash-cases svg {
-    animation: animSplashCases 0.85s ease-in-out forwards;
-}
-@keyframes animSplashCases {
-    0%   { transform: scale(0.65); opacity: 0; }
-    25%  { transform: scale(1.1) translateY(-5px) rotate(-7deg); opacity: 1; }
-    42%  { transform: scale(1.1) translateY(-5px) rotate(7deg); opacity: 1; }
-    58%  { transform: scale(1.04) translateY(0) rotate(-3deg); opacity: 1; }
-    72%  { transform: scale(1) rotate(0deg); opacity: 1; }
-    100% { transform: scale(0.92); opacity: 0; }
+/* === ПЛАНШЕТЫ (до 960px) === */
+@media (max-width: 960px) {
+    .hero-banner {
+        grid-template-columns: 1fr;
+    }
+    .shop-layout {
+        grid-template-columns: 1fr;
+    }
+    .categories-sidebar {
+        position: static;
+        flex-direction: row;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+    .categories-sidebar::-webkit-scrollbar {
+        display: none;
+    }
+    .nav-links {
+        display: none;
+    }
 }
 
-/* 4. Анимация "Разное и услуги" (Щит) */
-.splash-services svg {
-    animation: animSplashShield 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-@keyframes animSplashShield {
-    0%   { transform: scale(0.5); opacity: 0; }
-    30%  { transform: scale(1.16); opacity: 1; }
-    50%  { transform: scale(0.96); opacity: 1; }
-    70%  { transform: scale(1.02); opacity: 1; }
-    100% { transform: scale(0.92); opacity: 0; }
+/* === ОТДЕЛЬНЫЙ ИНТЕРФЕЙС ДЛЯ ТЕЛЕФОНОВ (до 768px) === */
+@media (max-width: 768px) {
+    body {
+        padding-bottom: calc(82px + env(safe-area-inset-bottom));
+    }
+
+    .bg-glow {
+        display: none;
+    }
+
+    .container {
+        padding: 0 14px;
+    }
+
+    /* Компактная мобильная шапка */
+    .navbar {
+        padding: 10px 0;
+    }
+
+    .logo {
+        font-size: 18px;
+        gap: 8px;
+    }
+
+    .logo-badge {
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+        border-radius: 8px;
+    }
+
+    .ip-header-btn {
+        display: none;
+    }
+
+    .online-pill {
+        display: flex !important;
+        padding: 6px 11px;
+        font-size: 12px;
+        border-radius: 10px;
+        gap: 7px;
+    }
+
+    /* Мобильный Hero-блок */
+    .hero-banner {
+        margin-top: 14px;
+        padding: 20px 18px;
+        border-radius: 18px;
+        gap: 0;
+    }
+
+    .decor-wave-card {
+        display: none;
+    }
+
+    .hero-badges {
+        gap: 6px;
+        margin-bottom: 12px;
+    }
+
+    .version-badge,
+    .season-badge {
+        height: 26px;
+        padding: 0 10px;
+        font-size: 10px;
+        border-radius: 7px;
+    }
+
+    .hero-content h1 {
+        font-size: 24px;
+        line-height: 1.2;
+        margin-bottom: 10px;
+    }
+
+    .hero-content p {
+        font-size: 13px;
+        margin-bottom: 18px;
+        line-height: 1.45;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .hero-actions .btn-primary {
+        width: 100%;
+        padding: 13px 16px;
+        font-size: 14px;
+    }
+
+    .hero-ip-box {
+        justify-content: space-between;
+        padding: 10px 12px 10px 14px;
+    }
+
+    .hero-ip-text {
+        font-size: 13px;
+    }
+
+    /* Калькулятор валюты на телефоне */
+    .currency-section {
+        margin-top: 16px;
+        padding: 18px 16px;
+        border-radius: 18px;
+    }
+
+    .currency-top {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .currency-title-block {
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .currency-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
+    }
+
+    .currency-title-block h2 {
+        font-size: 16px;
+        line-height: 1.25;
+    }
+
+    .rate-row {
+        gap: 6px;
+    }
+
+    .rate-info {
+        font-size: 12px;
+    }
+
+    .bonus-hint {
+        font-size: 11px;
+        padding: 3px 8px;
+    }
+
+    .currency-right-stats {
+        min-width: 0;
+        width: 100%;
+        justify-content: space-between;
+        background: var(--bg-input);
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+    }
+
+    .currency-big-counter {
+        font-size: 22px;
+        margin-left: auto;
+    }
+
+    .currency-big-counter small {
+        font-size: 12px;
+    }
+
+    input[type="range"] {
+        height: 8px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+        width: 28px;
+        height: 28px;
+    }
+
+    .preset-buttons {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 7px;
+        margin-bottom: 18px;
+    }
+
+    .preset-btn {
+        padding: 9px 4px;
+        font-size: 12px;
+        flex-direction: column;
+        gap: 2px;
+        min-height: 44px;
+    }
+
+    .currency-bottom {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        padding-top: 16px;
+    }
+
+    .calc-inputs {
+        display: grid;
+        grid-template-columns: 1fr auto 1.35fr;
+        gap: 8px;
+        align-items: end;
+    }
+
+    .calc-field {
+        min-width: 0;
+    }
+
+    .calc-field input {
+        width: 100%;
+        padding: 10px 12px;
+        height: 44px;
+    }
+
+    .coins-output-box {
+        width: 100%;
+        height: 44px;
+        padding: 0 12px;
+        font-size: 14px;
+    }
+
+    .coins-total-val {
+        font-size: 14px;
+    }
+
+    .coins-breakdown {
+        font-size: 11px;
+    }
+
+    .calc-equals {
+        margin-top: 0;
+        padding-bottom: 10px;
+        font-size: 16px;
+    }
+
+    .buy-btn-wrapper {
+        width: 100%;
+    }
+
+    .btn-currency-buy {
+        width: 100%;
+        padding: 14px;
+        transform: none !important;
+        animation: none !important;
+    }
+
+    .btn-shockwave,
+    .particles-container {
+        display: none !important;
+    }
+
+    /* Магазин и категории */
+    .shop-wrapper {
+        margin-top: 26px;
+        margin-bottom: 24px;
+    }
+
+    .shop-header-bar {
+        margin-bottom: 14px;
+        gap: 12px;
+    }
+
+    .shop-header-bar h2 {
+        font-size: 22px;
+    }
+
+    .recent-purchases {
+        width: 100%;
+        padding: 8px 12px;
+    }
+
+    .shop-layout {
+        gap: 14px;
+    }
+
+    /* Sticky-полоса категорий под шапкой */
+    .categories-sidebar {
+        position: sticky;
+        top: 53px;
+        z-index: 90;
+        background: rgba(18, 18, 21, 0.92);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: none;
+        border-bottom: 1px solid var(--border);
+        border-radius: 0;
+        margin: 0 -14px;
+        padding: 10px 14px;
+        gap: 8px;
+    }
+
+    .sidebar-title {
+        display: none;
+    }
+
+    .cat-btn {
+        padding: 9px 14px;
+        font-size: 13px;
+        border-radius: 10px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+    }
+
+    .cat-btn.active {
+        border-color: var(--accent);
+    }
+
+    .category-divider {
+        margin: 22px 0 14px;
+    }
+
+    .category-divider span {
+        font-size: 11px;
+        padding: 0 12px;
+    }
+
+    /* Сетка карточек в 2 колонки */
+    .products-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .product-card {
+        padding: 10px;
+        border-radius: 16px;
+    }
+
+    .badge-tag {
+        top: 16px;
+        right: 16px;
+        font-size: 9px;
+        padding: 3px 6px;
+    }
+
+    .product-art {
+        aspect-ratio: 1.15 / 1;
+        border-radius: 12px;
+        margin-bottom: 10px;
+    }
+
+    .product-art svg {
+        width: 50%;
+        height: 50%;
+    }
+
+    .product-name {
+        font-size: 14px;
+        margin-bottom: 3px;
+    }
+
+    .product-sub {
+        font-size: 11px;
+        line-height: 1.35;
+        margin-bottom: 12px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .product-bottom {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .price-block {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+    .price-value {
+        font-size: 16px;
+    }
+
+    .btn-card-buy {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 13px;
+        border-radius: 10px;
+    }
+
+    /* Модальное окно как нативная шторка снизу (Bottom Sheet) */
+    .modal-overlay {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .modal-window {
+        max-width: 100%;
+        border-radius: 24px 24px 0 0;
+        padding: 22px 18px calc(24px + env(safe-area-inset-bottom));
+        max-height: 90dvh;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        animation: sheetUp 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .modal-window::before {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 99px;
+        margin: -6px auto 14px;
+    }
+
+    @keyframes sheetUp {
+        from { transform: translateY(100%); }
+        to   { transform: translateY(0); }
+    }
+
+    /* Футер и тост */
+    .footer {
+        padding: 24px 0;
+    }
+
+    .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .footer-links {
+        gap: 14px;
+    }
+
+    .toast {
+        left: 14px;
+        right: 14px;
+        bottom: calc(80px + env(safe-area-inset-bottom));
+        text-align: center;
+    }
+
+    /* Нижний мобильный Tab-Bar */
+    .mobile-tabbar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 95;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        background: rgba(20, 21, 26, 0.94);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border-top: 1px solid var(--border);
+        padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
+    }
+
+    .tabbar-item {
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        font-size: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        padding: 4px 0;
+        transition: color 0.15s ease;
+    }
+
+    .tabbar-item svg {
+        width: 21px;
+        height: 21px;
+    }
+
+    .tabbar-item.active,
+    .tabbar-item:active {
+        color: var(--accent);
+    }
 }
