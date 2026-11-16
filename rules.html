@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HyperWave — Правила сервера</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        .rules-header {
+            margin: 34px 0 28px;
+        }
+        .rules-header h1 {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+        .rules-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+            max-width: 740px;
+        }
+        .rules-container {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            margin-bottom: 70px;
+        }
+        .rule-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+        }
+        .rule-card h2 {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 18px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .rule-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .rule-item {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #e2e4ec;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .rule-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .rule-num {
+            font-weight: 800;
+            color: var(--accent);
+            margin-right: 6px;
+        }
+        .punish {
+            display: inline-block;
+            background: rgba(239, 68, 68, 0.14);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        .punish.soft {
+            background: rgba(255, 205, 0, 0.12);
+            color: var(--accent);
+            border-color: rgba(255, 205, 0, 0.25);
+        }
+        .punish.green {
+            background: rgba(34, 197, 94, 0.14);
+            color: #4ade80;
+            border-color: rgba(34, 197, 94, 0.25);
+        }
+
+        /* Выпадающие списки */
+        details.rule-details {
+            margin-top: 10px;
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            transition: border-color 0.2s ease;
+        }
+        details.rule-details[open] {
+            border-color: rgba(255, 205, 0, 0.35);
+        }
+        details.rule-details summary {
+            padding: 9px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent);
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+            transition: background 0.2s ease;
+        }
+        details.rule-details summary::-webkit-details-marker {
+            display: none;
+        }
+        details.rule-details summary:hover {
+            background: rgba(255, 205, 0, 0.06);
+        }
+        details.rule-details summary::after {
+            content: '▼';
+            font-size: 10px;
+            transition: transform 0.25s ease;
+        }
+        details.rule-details[open] summary::after {
+            transform: rotate(180deg);
+        }
+        .sub-rules {
+            padding: 12px 16px 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(18, 18, 21, 0.45);
+            animation: slideDown 0.22s ease-out;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .sub-rule-item {
+            font-size: 13px;
+            color: #c5c8d4;
+            line-height: 1.55;
+            padding-left: 10px;
+            border-left: 2px solid rgba(255, 205, 0, 0.35);
+        }
+        .sub-num {
+            font-weight: 800;
+            color: #ffffff;
+            margin-right: 5px;
+        }
+        .mods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 8px;
+            margin-top: 6px;
+        }
+        .mod-tag {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            padding: 6px 10px;
+            border-radius: 7px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+        .mod-tag span {
+            color: #f87171;
+            font-weight: 700;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+        .mod-tag.soft span {
+            color: var(--accent);
+        }
+        .mod-tag.allowed span {
+            color: #4ade80;
+        }
+        .nav-links a.active {
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <header class="navbar">
+        <div class="container nav-inner">
+            <div class="nav-left">
+                <a href="index.html" class="logo">
+                    <span class="logo-badge">⚡</span>
+                    <span class="logo-text">HYPER<span class="accent">WAVE</span></span>
+                </a>
+                <nav class="nav-links">
+    <a href="index.html">Магазин</a>
+    <a href="rules.html" class="active">Правила</a>
+    <a href="#">Википедия</a>
+    <a href="#">Поддержка</a>
+</nav>
+            </div>
+
+            <div class="nav-right">
+                <div class="online-pill">
+                    <span class="pulse-dot"></span>
+                    <span>Онлайн: <strong>1 842</strong> / 5000</span>
+                </div>
+                <button class="ip-header-btn" onclick="copyIP()">
+                    <div class="ip-header-meta">
+                        <span class="ip-label">Нажми, чтобы скопировать</span>
+                        <span class="ip-val" id="server-ip">mc.hyperwave.ru</span>
+                    </div>
+                    <div class="copy-icon-box">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="rules-header">
+            <h1>Правила проекта <span class="accent">HyperWave</span></h1>
+            <p>Заходя на сервер mc.hyperwave.ru, вы автоматически принимаете данные правила. Незнание правил не освобождает от ответственности. Нажимайте на выпадающие блоки, чтобы посмотреть уточнения и фиксированные сроки наказаний.</p>
+        </div>
+
+        <div class="rules-container">
+            <!-- 1. Общие положения -->
+            <section class="rule-card">
+                <h2>1. Общие положения и аккаунты</h2>
+                <div class="rule-list">
+                    <div class="rule-item">
+                        <span class="rule-num">1.1</span> Официальным адресом проекта является <strong>mc.hyperwave.ru</strong>. Все остальные домены не имеют отношения к серверу.
+                    </div>
+                    <div class="rule-item">
+                        <span class="rule-num">1.2</span> Правила могут обновляться. О крупных изменениях администрация сообщает в новостях проекта (Discord / Telegram / VK).
+                    </div>
+                    <div class="rule-item">
+                        <span class="rule-num">1.3</span> Администрация не возвращает утраченные ресурсы из-за багов, откатов, киков сервера или действий читеров.
+                    </div>
+                    <div class="rule-item">
+                        <span class="rule-num">1.4</span> Запрещены продажа, передача, взлом или покупка аккаунтов в обход сайта, слив данных игроков, вредительство серверу, а также торговля игровыми ценностями за реальные деньги. <span class="punish">Перманентный бан всех аккаунтов</span>
+                        <details class="rule-details">
+                            <summary>Уточнения по безопасности и соучастию (2 подпункта)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">1.4.1</span> Осознанное соучастие в продаже валюты, взломах или вредительстве проекту наказывается аналогично. <span class="punish">Перманентный бан</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">1.4.2</span> Ответственность за безопасность аккаунта несет его владелец. Если аккаунт был взломан или передан, и с него нанесли серьезный вред серверу — разбану он не подлежит.</div>
+                            </div>
+                        </details>
+                    </div>
+                    <div class="rule-item">
+                        <span class="rule-num">1.5</span> Никнейм игрока должен быть корректным. <span class="punish">Перманентный бан аккаунта (для сменённых — предупреждение)</span>
+                        <details class="rule-details">
+                            <summary>Какие никнеймы запрещены (5 подпунктов)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">1.5.1</span> Имитирующие никнеймы высшей администрации (исключение — медиа-партнеры проекта).</div>
+                                <div class="sub-rule-item"><span class="sub-num">1.5.2</span> Содержащие прямой мат, оскорбления игроков или пожелания смерти сотрудникам проекта.</div>
+                                <div class="sub-rule-item"><span class="sub-num">1.5.3</span> Сексуального или откровенно аморального характера.</div>
+                                <div class="sub-rule-item"><span class="sub-num">1.5.4</span> Содержащие названия читов и запрещенного ПО (пример: <code>Celestial777</code>).</div>
+                                <div class="sub-rule-item"><span class="sub-num">1.5.5</span> Содержащие рекламу сторонних серверов или слова из анти-спам фильтра (в том числе завуалированные).</div>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Донат и платные услуги -->
+            <section class="rule-card">
+                <h2>2. Приобретение привилегий и хайпиков</h2>
+                <div class="rule-list">
+                    <div class="rule-item">
+                        <span class="rule-num">2.1</span> Игра на сервере бесплатна. Любые покупки на сайте являются добровольными пожертвованиями на развитие проекта, возврат средств после выдачи товара не производится.
+                    </div>
+                    <div class="rule-item">
+                        <span class="rule-num">2.2</span> При оплате привилегий, кейсов или хайпиков обязательно сохраняйте электронный чек с почты. Без него техподдержка не сможет помочь при сбое выдачи или утере доступа к аккаунту.
+                    </div>
+                    <div class="rule-item">
+                        <span class="rule-num">2.3</span> Наличие платной привилегии не дает права нарушать правила проекта.
+                    </div>
+                    <div class="rule-item">
+                        <span class="rule-num">2.4</span> Особые правила для донатеров (команда <code>/bc</code> и кастомные префиксы):
+                        <details class="rule-details">
+                            <summary>Подробнее об ограничениях для донатеров (2 подпункта)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">2.4.1</span> Запрещено использовать <code>/bc</code> для флуда, нарушать в объявлениях правила чата или подделывать системные сообщения сервера. <span class="punish soft">Бан 2 дня</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">2.4.2</span> Кастомный префикс проходит модерацию. Запрещены оскорбления, мат и теги персонала (<code>Helper</code>, <code>Moder</code>, <code>Admin</code>, <code>Owner</code>, <code>Dev</code> и т.п.). При отклонении префикса из-за нарушения правил возврат средств не производится. <span class="punish soft">Отказ в выдаче префикса</span></div>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Внутриигровое общение -->
+            <section class="rule-card">
+                <h2>3. Правила внутриигрового общения</h2>
+                <div class="rule-list">
+                    <div class="rule-item">
+                        <span class="rule-num">3.1</span> Запрещен флуд (от 3-х одинаковых или схожих по смыслу сообщений за 1 минуту). <span class="punish soft">Мут 1 час</span>
+                        <details class="rule-details">
+                            <summary>Уточнения, массовый флуд и обход (3 подпункта)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">3.1.1</span> Согласованный спам одним и тем же текстом с группой игроков или через твинк-аккаунты. <span class="punish soft">Мут каждому на 2 часа</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.1.2</span> Массовый флуд одинаковыми сообщениями или буквами в короткий промежуток времени (<strong>исключение:</strong> написание «F» / поздравлений после выбивания игроком редкой награды из кейса). <span class="punish soft">Мут каждому участнику на 1 час</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.1.3</span> Обход кулдауна через <code>/bc</code> (2 сообщения в глобал + <code>/bc</code> или наоборот). <span class="punish soft">Мут 3 часа</span></div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">3.2</span> Запрещен спам символами (более 10 подряд, например <code>!!!!!!!!!!!!</code>) и злоупотребление CAPS LOCK (более 50% заглавных букв в сообщении от 3 слов). <span class="punish soft">Мут 1 час</span>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">3.3</span> Запрещено устраивать флуд-опросы в чате («кто в клан / на дуэль / выживать / торг + в чат» — разрешено; «F» после кейса — разрешено; остальной спам плюсами/буквами — запрещен). <span class="punish soft">Участникам — мут 1 час / Организатору — мут 2 часа</span>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">3.4</span> Неадекватное поведение, оскорбления и токсичность в чате:
+                        <details class="rule-details">
+                            <summary>Градация нарушений и точные сроки (5 подпунктов)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">3.4.1</span> Чрезмерное злоупотребление нецензурной лексикой (мат в каждом сообщении). <span class="punish soft">Мут 1 час</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.4.2</span> Оскорбления, унижения и угрозы в адрес игроков (даже без указания конкретного ника). <span class="punish soft">Мут 2 часа</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.4.3</span> Аморальное поведение и откровенный контент 18+ в общем чате. <span class="punish soft">Мут 2 часа</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.4.4</span> Систематическая травля игроков и грубое неадекватное поведение. <span class="punish soft">Мут 6 часов</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.4.5</span> Призывы к суициду или причинению себе вреда. <span class="punish">Мут 12 часов</span></div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">3.5</span> Оскорбление и упоминание родных других игроков:
+                        <details class="rule-details">
+                            <summary>Точные сроки наказаний (2 подпункта)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">3.5.1</span> Токсичное или завуалированное упоминание родных другого игрока. <span class="punish soft">Мут 1 день</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.5.2</span> Прямое оскорбление родителей или семьи другого игрока. <span class="punish">Мут 5 дней</span></div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">3.6</span> Оскорбление проекта или деструктивный спам в общем чате:
+                        <details class="rule-details">
+                            <summary>Разделение по тяжести (2 подпункта)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">3.6.1</span> Деструктивное нытье и провокации в общем чате без прямых оскорблений (конструктивная критика на форуме/в Discord разрешена). <span class="punish soft">Мут 2 часа</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.6.2</span> Прямое оскорбление и унижение проекта в любом чате. <span class="punish">Бан 7 дней</span></div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">3.7</span> Любая дезинформация игроков (ввод в заблуждение, обман с сочетаниями клавиш <code>Alt+F4</code> / <code>F3+C</code>, фейк-информация об ивентах/правилах). <strong>Исключение:</strong> расплывчатые фразы без конкретики (например, «скоро вайп»). <span class="punish">Бан 36 часов</span>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">3.8</span> Реклама и публикация сторонних ресурсов, соцсетей и серверов:
+                        <details class="rule-details">
+                            <summary>Контакты, реклама ресурсов и серверов (4 подпункта)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">3.8.1</span> Публикация личных Discord/Telegram-тегов в глобальном чате (разрешено в ЛС или при проверке модератором). <span class="punish soft">Мут 1 час</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.8.2</span> Упоминание и реклама сторонних групп, каналов и сайтов, не связанных с проектом. <span class="punish soft">Мут 2 дня (за обход — бан 3 дня)</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.8.3</span> Реклама других Minecraft-серверов в любом чате (включая ЛС и попытки обхода). <span class="punish">Перманентный бан</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.8.4</span> Распространение вредоносных ссылок, скримеров, стиллеров. <span class="punish">Перманентный бан</span></div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">3.9</span> Угрозы наказаниями в чате или выдача себя за администрацию проекта:
+                        <details class="rule-details">
+                            <summary>Разделение по тяжести (2 подпункта)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">3.9.1</span> Пустые угрозы баном, киком или мутом другим игрокам. <span class="punish soft">Мут 2 часа</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.9.2</span> Выдача себя за администратора, модератора или сотрудника проекта. <span class="punish">Бан 7 дней</span></div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">3.10</span> Общение с модерацией, администрацией и ютуберами проекта:
+                        <details class="rule-details">
+                            <summary>Детализация наказаний (3 подпункта)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">3.10.1</span> Выпрашивание ресурсов, привилегий или снятия наказаний у персонала проекта. <span class="punish soft">Варн (предупреждение), далее мут 2 часа</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.10.2</span> Прямое оскорбление модератора, администратора или ютубера проекта в любом чате. <span class="punish">Бан 7 дней</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.10.3</span> Оскорбление родных администрации или ютуберов. <span class="punish">Бан 14 дней</span></div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">3.11</span> Пропаганда нацизма, расизма, терроризма, наркотиков, розжиг межнациональной или религиозной розни, а также политическая агитация. <span class="punish">Бан 5 дней</span>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">3.12</span> Прочие нарушения коммуникации:
+                        <details class="rule-details">
+                            <summary>Голосовой чат, торговля за реал, мошенничество и доксинг (4 подпункта)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">3.12.1</span> Включение громкой музыки и посторонних звуков (Soundpad) в голосовой чат. <span class="punish soft">Мут 2 часа</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.12.2</span> Попытка продажи или обмена игровых ценностей за реальную валюту либо предметы из других игр. <span class="punish">Перманентный бан</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.12.3</span> Мошенничество, связанное с реальными деньгами или взломом аккаунтов. <span class="punish">Бан 15 дней</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">3.12.4</span> Слив личных данных игроков или персонала (доксинг, сватинг) и угрозы этим. <span class="punish">Перманентный бан</span></div>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Запрещенное ПО -->
+            <section class="rule-card">
+                <h2>4. Читы, запрещенные моды и проверки</h2>
+                <div class="rule-list">
+                    <div class="rule-item">
+                        <span class="rule-num">4.1</span> Использование вредоносного и читерского ПО, дающего нечестное преимущество над игроками. <span class="punish">Бан 30 дней</span>
+                        <details class="rule-details">
+                            <summary>Хранение, признание, проверки и тим с читером (10 подпунктов)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">4.1.1</span> Хранение читов на ПК или их удаление менее чем за 14 дней до проверки. <span class="punish">Бан 30 дней</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">4.1.2</span> Осознанная совместная игра в команде (тим) с игроком, использующим читы. <span class="punish">Бан 28 дней</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">4.1.3</span> Добровольное признание в использовании читов <strong>во время проверки</strong>. <span class="punish">Бан 27 дней</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">4.1.4</span> Признание в наличии у себя читов в любом игровом чате. <span class="punish soft">Бан 7 дней</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">4.1.5</span> Отказ от проверки, игнорирование модератора, выход с сервера во время проверки или намеренное её затягивание. <span class="punish">Бан 30 дней</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">4.1.6</span> Саботаж и уклон от проверки: создание фейк-папок с названиями читов, оскорбления модератора, а также частые повторяющиеся вопросы не по теме проверки или навязчивые просьбы не банить после предупреждения проверяющего. <span class="punish">Бан 30 дней</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">4.1.7</span> Использование виртуальных машин, блокировка доступа к дискам/программам или запуск <code>.bat</code>-скриптов очистки перед проверкой. <span class="punish">Бан 30 дней (хранение .bat очистки — бан 14 дней)</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">4.1.8</span> Обход активной блокировки аккаунта с твинков. <span class="punish">Бан 45 дней</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">4.1.9</span> Использование авто-копателей, авто-рыбалки, авто-лесорубов и кликеров для AFK-фарма. <span class="punish soft">Бан 5 дней (PvP-кликеры — бан 14 дней)</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">4.1.10</span> Использование ботов и скриптов, полностью автоматизирующих сложные игровые процессы (авто-сдача на фармилках, бот-казино и т.п.). <span class="punish">Бан 15 дней</span></div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">4.2</span> Список разрешенных и запрещенных модификаций. Если в разрешенном моде встроены запрещенные функции — наказание выдается как за читы.
+                        <details class="rule-details">
+                            <summary>Открыть список разрешенных и запрещенных модов</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item">
+                                    <strong>Разрешенные моды и визуалы:</strong>
+                                    <div class="mods-grid">
+                                        <div class="mod-tag allowed">Sodium / OptiFine / Iris <span>Разрешено</span></div>
+                                        <div class="mod-tag allowed">Litematica (без Printer / EasyPlace) <span>Разрешено</span></div>
+                                        <div class="mod-tag allowed">Xaero's/Voxel Minimap <span>Разрешено</span></div>
+                                        <div class="mod-tag allowed">Really / Pulse / Fly Visuals <span>Разрешено</span></div>
+                                    </div>
+                                </div>
+                                <div class="sub-rule-item">
+                                    <strong>Запрещенные моды (средняя тяжесть):</strong>
+                                    <div class="mods-grid">
+                                        <div class="mod-tag soft">ElytraSwap / ArmorHotSwap <span>Бан 5 дней</span></div>
+                                        <div class="mod-tag soft">AFK-Fish Mod <span>Бан 5 дней</span></div>
+                                        <div class="mod-tag soft">InvMove / TopkaAutoBuy <span>Бан 7 дней</span></div>
+                                        <div class="mod-tag soft">Litematica Printer / EasyPlace <span>Бан 7 дней</span></div>
+                                        <div class="mod-tag soft">GoProne / CleanCut <span>Бан 14 дней</span></div>
+                                        <div class="mod-tag soft">Grass Bypass / FastExp / Trajectories <span>Бан 14 дней</span></div>
+                                        <div class="mod-tag soft">StepUp Mod <span>Бан 20 дней</span></div>
+                                    </div>
+                                </div>
+                                <div class="sub-rule-item">
+                                    <strong>Приравниваются к читам (Бан 30 дней):</strong>
+                                    <div class="mods-grid">
+                                        <div class="mod-tag">InventoryProfilesNext / ChestStealer <span>Бан 30 дней</span></div>
+                                        <div class="mod-tag">Inventory Totem / AutoTotem / AutoArmor <span>Бан 30 дней</span></div>
+                                        <div class="mod-tag">X-Ray / ChestESP / DiamondSim / SeedCracker <span>Бан 30 дней</span></div>
+                                        <div class="mod-tag">FreeCam / NoClipFly / ElytraFly <span>Бан 30 дней</span></div>
+                                        <div class="mod-tag">Baritone / Fabritone / Tweakeroo <span>Бан 30 дней</span></div>
+                                        <div class="mod-tag">ClickCrystal / AutoClicky / AutoMaceSwap <span>Бан 30 дней</span></div>
+                                        <div class="mod-tag">Aim Assistance / AutoAttack / TriggerBot <span>Бан 30 дней</span></div>
+                                        <div class="mod-tag">PlayerHighlighter / Изменение хитбоксов <span>Бан 30 дней</span></div>
+                                        <div class="mod-tag">NoJumpDelay / AutoLeave / FlySpeed / WorldDownloader <span>Бан 30 дней</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">4.3</span> Регламент проведения проверки на читы (права игрока и модератора).
+                        <details class="rule-details">
+                            <summary>Как проходит проверка и на что модератор НЕ имеет права (4 подпункта)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">4.3.1</span> Проверка проводится только с ПК (не с телефона) через программу <strong>AnyDesk</strong>. Если возникают проблемы с подключением, допускается проверка через демонстрацию экрана в <strong>Discord</strong>.</div>
+                                <div class="sub-rule-item"><span class="sub-num">4.3.2</span> Модератор имеет право запрашивать только управление мышью и клавиатурой. Запрашивать полный доступ к системе запрещено.</div>
+                                <div class="sub-rule-item"><span class="sub-num">4.3.3</span> Модератору запрещено скидывать вам какие-либо файлы со своего ПК. Все утилиты для проверки (SystemInformer, Everything, RecentFilesView, ShellbagAnalyzer, JournalTrace и др.) вы скачиваете сами с официальных сайтов или GitHub.</div>
+                                <div class="sub-rule-item"><span class="sub-num">4.3.4</span> Старшая модерация (Moder+) при наличии веских подозрений в продаже валюты вправе попросить показать историю заказов на торговых площадках (FunPay и аналоги).</div>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. Игровой процесс -->
+            <section class="rule-card">
+                <h2>5. Игровой процесс и вредительство</h2>
+                <div class="rule-list">
+                    <div class="rule-item">
+                        <span class="rule-num">5.1</span> Причинение вреда серверу, экономике и работе персонала:
+                        <details class="rule-details">
+                            <summary>Дюпы, лаг-машины, багоюз, ловушки и помеха работе (5 подпунктов)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">5.1.1</span> Использование и распространение дюпов. <span class="punish">Перманентный бан</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">5.1.2</span> Постройка лаг-машин и механизмов, намеренно нагружающих сервер. <span class="punish">Перманентный бан</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">5.1.3</span> Использование багов сервера в корыстных целях (багоюз). <span class="punish">Бан 14 дней</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">5.1.4</span> Создание заливов (лава/вода над постройками) и ловушек, из которых невозможно выбраться из-за ограничений сервера (стойки для брони, рыхлый снег, песок душ и т.д.). <span class="punish">Бан 14 дней + снос постройки</span></div>
+                                <div class="sub-rule-item"><span class="sub-num">5.1.5</span> Помеха работе персонала: ложные вызовы, отвлечение модерации «по рофлу» или спам в <code>/report</code>. <span class="punish soft">Бан 6 часов</span></div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">5.2</span> Флуд командами (например, отправка <code>/pay</code> по 1 монете более 10 раз подряд). <span class="punish soft">Кик, при повторе — бан 6 часов</span>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">5.3</span> Нарушение правил чата на табличках, в названиях регионов, предметов, книг или кланов. <span class="punish">Удаление + бан 7 дней (за рекламу IP — перманентный бан)</span>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">5.4</span> Оскорбления в адрес высшей администрации при подаче жалоб или обращений. <span class="punish soft">Отклонение жалобы + бан 3 дня</span>
+                    </div>
+                </div>
+            </section>
+            <!-- 6. Иерархия персонала и памятка игроку -->
+            <section class="rule-card">
+                <h2>6. Взаимодействие с персоналом (Памятка игроку)</h2>
+                <div class="rule-list">
+                    <div class="rule-item">
+                        <span class="rule-num">6.1</span> Структура и зоны ответственности персонала на сервере:
+                        <details class="rule-details">
+                            <summary>Иерархия команды HyperWave (6 ступеней)</summary>
+                            <div class="sub-rules">
+    <div class="sub-rule-item"><span class="sub-num">6.1.1</span> <strong class="staff-rank-title role-helper">HELPER</strong> — отвечает на вопросы игроков в чате, следит за порядком (борьба с матом, спамом и CAPS LOCK), выдает лайтовые наказания исключительно по чату. На проверки не вызывает.</div>
+    <div class="sub-rule-item"><span class="sub-num">6.1.2</span> <strong class="staff-rank-title role-senior-helper">ST.HELPER</strong> — опытный сотрудник чат-состава. Имеет расширенные полномочия и право выдавать временные блокировки (баны) за грубые нарушения правил общения (реклама, жесткие оскорбления).</div>
+    <div class="sub-rule-item"><span class="sub-num">6.1.3</span> <strong class="staff-rank-title role-moderator">MODER</strong> — игровой силовой блок. Выдает баны строго <strong>по реку</strong> (видеозаписи нарушения, присылаемой в Discord/Telegram) либо если находится в режиме спектатора (наблюдения) и своими глазами видит нарушение.</div>
+    <div class="sub-rule-item"><span class="sub-num">6.1.4</span> <strong class="staff-rank-title role-senior-moderator">ST.MODER</strong> — технический надзор. Самостоятельно вызывает игроков на проверки на читы, банит за нарушения, связанные с постройками (гриф, ловушки), и проверяет торговые площадки (FunPay).</div>
+    <div class="sub-rule-item"><span class="sub-num">6.1.5</span> <strong class="staff-rank-title role-chief-moderator">GL.MODER</strong> — высшая ступень контроля безопасности. Полномочен полностью <strong>отключать аккаунты</strong> за вредительство, дюпы и махинации; борется с бот-фермами и продавцами валюты. Курирует стажеров и имеет прямую связь с вышкой.</div>
+    <div class="sub-rule-item"><span class="sub-num">6.1.6</span> <strong class="staff-rank-title role-curator">CURATOR</strong> — руководство проектом. Отвечает за набор людей в состав, утверждение кастомных префиксов, решение глобальных вопросов и координацию всех отделов.</div>
+</div>
+                        </details>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">6.2</span> С чем персонал <strong>не помогает</strong> (игровые моменты и просьбы игроков):
+                        <details class="rule-details">
+                            <summary>Что не входит в обязанности администрации (3 подпункта)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">6.2.1</span> Администрация не вмешивается в игровой процесс: не возвращает вещи после смерти в PvP или от мобов, не возмещает лут при гриферстве и обманах во время обменов без гаранта.</div>
+                                <div class="sub-rule-item"><span class="sub-num">6.2.2</span> Если вы сами добавили игрока в свой регион или клан, а он забрал ресурсы — это игровой момент, наказание за это не выдается.</div>
+                                <div class="sub-rule-item"><span class="sub-num">6.2.3</span> Персонал не телепортирует игроков по личным просьбам, не выдает ресурсы, не меняет время суток и не удаляет чужие приваты.</div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">6.3</span> Ваши права при получении наказания или проверке на читы:
+                        <details class="rule-details">
+                            <summary>Правила безопасности и обжалования (3 подпункта)</summary>
+                            <div class="sub-rules">
+                                <div class="sub-rule-item"><span class="sub-num">6.3.1</span> На каждое выданное наказание у модератора есть доказательства (скриншот или запись). Если вы не согласны с баном или мутом, вы можете подать обжалование на форуме или в поддержке в течение <strong>3 дней</strong>.</div>
+                                <div class="sub-rule-item"><span class="sub-num">6.3.2</span> Модератор <strong>не имеет права</strong> просить у вас пароль от аккаунта, коды из соцсетей, полный доступ к вашей файловой системе через AnyDesk или заставлять скачивать сторонние программы с личных ссылок.</div>
+                                <div class="sub-rule-item"><span class="sub-num">6.3.3</span> Если сотрудник персонала превышает полномочия, ведет себя неадекватно или покрывает нарушителей — вы можете подать жалобу на него в разделе поддержки, приложив доказательства.</div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="rule-item">
+                        <span class="rule-num">6.4</span> Главная администрация проекта оставляет за собой право принимать решения в нестандартных ситуациях (попытки обхода правил через «дыры», угрозы безопасности сервера) на свое усмотрение.
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div>
+                <div class="logo">HYPER<span class="accent">WAVE</span></div>
+                <p class="footer-copy">© 2026 HyperWave Network. Все права защищены. Не связано с Mojang AB.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">Договор оферты</a>
+                <a href="#">Политика конфиденциальности</a>
+                <a href="rules.html">Правила проекта</a>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast">IP адрес mc.hyperwave.ru скопирован!</div>
+    <script src="script.js"></script>
+</body>
+</html>
