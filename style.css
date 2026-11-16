@@ -68,7 +68,6 @@ body {
     color: var(--accent);
 }
 
-/* === NAVBAR === */
 .navbar {
     background: rgba(18, 18, 21, 0.85);
     backdrop-filter: blur(16px);
@@ -133,6 +132,10 @@ body {
     transition: 0.2s ease-out;
 }
 
+.nav-links a:hover {
+    color: var(--text-main);
+}
+
 .nav-right {
     display: flex;
     align-items: center;
@@ -177,6 +180,10 @@ body {
     transition: 0.2s ease-out;
 }
 
+.ip-header-btn:hover {
+    border-color: var(--accent);
+}
+
 .ip-header-meta {
     display: flex;
     flex-direction: column;
@@ -206,7 +213,6 @@ body {
     justify-content: center;
 }
 
-/* === HERO BANNER === */
 .hero-banner {
     margin-top: 28px;
     background: linear-gradient(135deg, rgba(35, 37, 46, 0.9) 0%, rgba(22, 23, 29, 0.95) 100%);
@@ -295,8 +301,10 @@ body {
     justify-content: center;
 }
 
-.btn-primary:active {
-    transform: scale(0.97);
+.btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 205, 0, 0.25);
 }
 
 .hero-ip-box {
@@ -309,6 +317,10 @@ body {
     gap: 16px;
     cursor: pointer;
     transition: 0.2s ease-out;
+}
+
+.hero-ip-box:hover {
+    border-color: var(--accent);
 }
 
 .hero-ip-text {
@@ -417,7 +429,6 @@ body {
     align-items: center;
     gap: 14px;
     justify-content: flex-end;
-    min-width: 280px;
 }
 
 .bonus-badge {
@@ -438,7 +449,7 @@ body {
     font-variant-numeric: tabular-nums;
     text-align: right;
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 6px;
 }
 
@@ -448,30 +459,58 @@ body {
     font-weight: 700;
 }
 
+/* === ПОЛЗУНОК ВАЛЮТЫ (КРОССБРАУЗЕРНЫЙ + МОБИЛЬНЫЙ) === */
 .slider-container {
-    margin-bottom: 16px;
+    margin: 22px 0;
+    padding: 8px 0;
+    touch-action: pan-y;
 }
 
 input[type="range"] {
     -webkit-appearance: none;
+    appearance: none;
     width: 100%;
     height: 10px;
     border-radius: 999px;
-    background: linear-gradient(to right, var(--accent) 0%, var(--accent) 2%, var(--bg-input) 2%, var(--bg-input) 100%);
+    background: #262830;
     outline: none;
     cursor: pointer;
+    display: block;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 10px;
+    border-radius: 999px;
 }
 
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 24px;
-    height: 24px;
+    appearance: none;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     background: #ffffff;
     border: 5px solid var(--accent);
-    box-shadow: 0 0 14px rgba(255, 205, 0, 0.6);
+    box-shadow: 0 0 14px rgba(255, 205, 0, 0.7);
     cursor: pointer;
+    margin-top: -8px;
     transition: transform 0.15s ease-out;
+}
+
+input[type="range"]::-moz-range-track {
+    height: 10px;
+    border-radius: 999px;
+    background: transparent;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 5px solid var(--accent);
+    box-shadow: 0 0 14px rgba(255, 205, 0, 0.7);
+    cursor: pointer;
 }
 
 .preset-buttons {
@@ -504,6 +543,11 @@ input[type="range"]::-webkit-slider-thumb {
     font-weight: 800;
     padding: 2px 6px;
     border-radius: 5px;
+}
+
+.preset-btn:hover {
+    color: var(--text-main);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .preset-btn.active {
@@ -722,7 +766,6 @@ input[type="range"]::-webkit-slider-thumb {
     }
 }
 
-/* === SHOP === */
 .shop-wrapper {
     margin-top: 44px;
     margin-bottom: 70px;
@@ -752,11 +795,6 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: var(--radius-md);
     overflow-x: auto;
     max-width: 100%;
-    scrollbar-width: none;
-}
-
-.recent-purchases::-webkit-scrollbar {
-    display: none;
 }
 
 .recent-label {
@@ -831,19 +869,24 @@ input[type="range"]::-webkit-slider-thumb {
     display: flex;
     align-items: center;
     gap: 12px;
-    transition: 0.2s ease-out;
     white-space: nowrap;
+    transition: 0.2s ease-out;
 }
 
-.cat-btn svg {
-    flex-shrink: 0;
-    transition: transform 0.2s ease;
+.cat-btn:hover {
+    background: var(--bg-input);
+    color: var(--text-main);
 }
 
 .cat-btn.active {
     background: var(--accent);
     color: #121215;
     box-shadow: 0 4px 15px rgba(255, 205, 0, 0.25);
+}
+
+.cat-btn svg {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
 }
 
 .products-area {
@@ -902,14 +945,14 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 @keyframes cardAppear {
-    from {
-        opacity: 0;
-        transform: translateY(14px) scale(0.97);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+    from { opacity: 0; transform: translateY(14px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 205, 0, 0.5);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
 }
 
 .badge-tag {
@@ -944,12 +987,16 @@ input[type="range"]::-webkit-slider-thumb {
     height: 58%;
     transform-origin: center;
     will-change: transform, filter;
-    transition: filter 0.35s ease;
     overflow: visible !important;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
 }
 
-.anim-fusion svg {
-    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
+.product-card:hover .product-art svg {
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.75));
+}
+
+.product-card:hover .anim-fusion svg {
+    transform: scale(1.15);
 }
 
 .product-name {
@@ -1002,11 +1049,10 @@ input[type="range"]::-webkit-slider-thumb {
     transition: 0.2s ease-out;
 }
 
-.btn-card-buy:active {
-    transform: scale(0.96);
+.btn-card-buy:hover {
+    background: var(--accent-hover);
 }
 
-/* === MODAL === */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -1039,7 +1085,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 @keyframes popIn {
     from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+    to   { opacity: 1; transform: scale(1); }
 }
 
 .modal-close {
@@ -1049,14 +1095,15 @@ input[type="range"]::-webkit-slider-thumb {
     background: var(--bg-input);
     border: none;
     color: var(--text-muted);
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     border-radius: 8px;
     font-size: 20px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+}
+
+.modal-close:hover {
+    color: var(--text-main);
 }
 
 .modal-title {
@@ -1120,7 +1167,6 @@ input[type="range"]::-webkit-slider-thumb {
 
 .order-details {
     flex-grow: 1;
-    min-width: 0;
 }
 
 .order-cat {
@@ -1216,8 +1262,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .qty-step-btn {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     background: var(--bg-input);
     border: 1px solid var(--border);
     color: var(--text-main);
@@ -1225,24 +1271,19 @@ input[type="range"]::-webkit-slider-thumb {
     font-size: 18px;
     font-weight: 800;
     cursor: pointer;
-    transition: 0.15s ease-out;
 }
 
 #case-qty-input {
     flex: 1;
-    height: 44px;
+    height: 40px;
     background: var(--bg-input);
     border: 1px solid var(--border);
     color: var(--text-main);
     border-radius: var(--radius-sm);
     text-align: center;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 800;
     outline: none;
-}
-
-#case-qty-input:focus {
-    border-color: var(--accent);
 }
 
 .form-group {
@@ -1264,7 +1305,7 @@ input[type="range"]::-webkit-slider-thumb {
     color: var(--text-main);
     padding: 13px 14px;
     border-radius: var(--radius-sm);
-    font-size: 16px;
+    font-size: 14px;
     outline: none;
 }
 
@@ -1291,9 +1332,8 @@ input[type="range"]::-webkit-slider-thumb {
 .checkbox-label input {
     margin-top: 2px;
     accent-color: var(--accent);
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
 }
 
 .checkbox-label a {
@@ -1305,7 +1345,6 @@ input[type="range"]::-webkit-slider-thumb {
     width: 100%;
 }
 
-/* === FOOTER === */
 .footer {
     border-top: 1px solid var(--border);
     padding: 32px 0;
@@ -1338,6 +1377,10 @@ input[type="range"]::-webkit-slider-thumb {
     text-decoration: none;
 }
 
+.footer-links a:hover {
+    color: var(--accent);
+}
+
 .toast {
     position: fixed;
     bottom: 24px;
@@ -1360,7 +1403,7 @@ input[type="range"]::-webkit-slider-thumb {
     transform: translateY(0);
 }
 
-/* === ДЕКОР В БАННЕРЕ === */
+/* === ДЕКОР БАННЕРА === */
 .decor-wave-card {
     position: relative;
     min-height: 220px;
@@ -1426,7 +1469,7 @@ input[type="range"]::-webkit-slider-thumb {
     50%      { transform: translateY(-8px) scale(1.3); opacity: 0.9; }
 }
 
-/* === РАНГИ ПЕРСОНАЛА (RULES) === */
+/* === РАНГИ ПЕРСОНАЛА === */
 .staff-rank-title {
     font-family: 'Montserrat', sans-serif !important;
     font-size: 13px;
@@ -1447,75 +1490,27 @@ input[type="range"]::-webkit-slider-thumb {
 .role-chief-moderator  { background-image: linear-gradient(135deg, #c084fc, #7e22ce); }
 .role-curator          { background-image: linear-gradient(135deg, #f59e0b, #b45309); }
 
-/* === HOVER ТОЛЬКО ДЛЯ УСТРОЙСТВ С МЫШЬЮ (ПК) === */
-@media (hover: hover) and (pointer: fine) {
-    .nav-links a:hover {
-        color: var(--text-main);
-    }
-    .ip-header-btn:hover {
-        border-color: var(--accent);
-    }
-    .btn-primary:hover {
-        background: var(--accent-hover);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(255, 205, 0, 0.25);
-    }
-    .hero-ip-box:hover {
-        border-color: var(--accent);
-    }
-    .preset-btn:hover {
-        color: var(--text-main);
-        border-color: rgba(255, 255, 255, 0.2);
-    }
-    .cat-btn:hover {
-        background: var(--bg-input);
-        color: var(--text-main);
-    }
-    .cat-btn:hover svg {
-        transform: scale(1.1);
-    }
-    .product-card:hover {
-        transform: translateY(-5px);
-        border-color: rgba(255, 205, 0, 0.5);
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
-    }
-    .product-card:hover .product-art svg {
-        filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.75));
-    }
-    .product-card:hover .anim-fusion svg {
-        transform: scale(1.15);
-    }
-    .btn-card-buy:hover {
-        background: var(--accent-hover);
-    }
-    .modal-close:hover {
-        color: var(--text-main);
-    }
-    .switch-opt:hover {
-        color: var(--text-main);
-    }
-    .qty-preset-btn:hover {
-        color: var(--text-main);
-        border-color: rgba(255, 255, 255, 0.25);
-    }
-    .qty-step-btn:hover {
-        border-color: var(--accent);
-        color: var(--accent);
-    }
-    .footer-links a:hover {
-        color: var(--accent);
-    }
+/* === ОВЕРЛЕЙ КАТЕГОРИЙ === */
+.cat-splash-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 9999;
 }
 
-/* === МОБИЛЬНЫЙ НИЖНИЙ ТАБ-БАР (СКРЫТ НА ПК) === */
+/* === НИЖНИЙ МОБИЛЬНЫЙ ТАББАР === */
 .mobile-tabbar {
     display: none;
 }
 
-/* === ПЛАНШЕТЫ (до 960px) === */
+/* === АДАПТИВ ДЛЯ ПЛАНШЕТОВ И СМАРТФОНОВ === */
 @media (max-width: 960px) {
     .hero-banner {
         grid-template-columns: 1fr;
+    }
+    .decor-wave-card {
+        display: none;
     }
     .shop-layout {
         grid-template-columns: 1fr;
@@ -1529,26 +1524,23 @@ input[type="range"]::-webkit-slider-thumb {
     .categories-sidebar::-webkit-scrollbar {
         display: none;
     }
+    .sidebar-title {
+        display: none;
+    }
     .nav-links {
         display: none;
     }
 }
 
-/* === ОТДЕЛЬНЫЙ ИНТЕРФЕЙС ДЛЯ ТЕЛЕФОНОВ (до 768px) === */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
     body {
-        padding-bottom: calc(82px + env(safe-area-inset-bottom));
-    }
-
-    .bg-glow {
-        display: none;
+        padding-bottom: 78px;
     }
 
     .container {
         padding: 0 14px;
     }
 
-    /* Компактная мобильная шапка */
     .navbar {
         padding: 10px 0;
     }
@@ -1562,7 +1554,6 @@ input[type="range"]::-webkit-slider-thumb {
         width: 30px;
         height: 30px;
         font-size: 15px;
-        border-radius: 8px;
     }
 
     .ip-header-btn {
@@ -1570,321 +1561,155 @@ input[type="range"]::-webkit-slider-thumb {
     }
 
     .online-pill {
-        display: flex !important;
-        padding: 6px 11px;
-        font-size: 12px;
-        border-radius: 10px;
-        gap: 7px;
-    }
-
-    /* Мобильный Hero-блок */
-    .hero-banner {
-        margin-top: 14px;
-        padding: 20px 18px;
-        border-radius: 18px;
-        gap: 0;
-    }
-
-    .decor-wave-card {
-        display: none;
-    }
-
-    .hero-badges {
+        padding: 6px 12px;
+        font-size: 11px;
         gap: 6px;
-        margin-bottom: 12px;
     }
 
-    .version-badge,
-    .season-badge {
-        height: 26px;
-        padding: 0 10px;
-        font-size: 10px;
-        border-radius: 7px;
+    .hero-banner {
+        margin-top: 16px;
+        padding: 22px 18px;
     }
 
     .hero-content h1 {
-        font-size: 24px;
-        line-height: 1.2;
-        margin-bottom: 10px;
+        font-size: 26px;
     }
 
     .hero-content p {
         font-size: 13px;
         margin-bottom: 18px;
-        line-height: 1.45;
     }
 
     .hero-actions {
         flex-direction: column;
         align-items: stretch;
-        gap: 10px;
-    }
-
-    .hero-actions .btn-primary {
-        width: 100%;
-        padding: 13px 16px;
-        font-size: 14px;
     }
 
     .hero-ip-box {
         justify-content: space-between;
-        padding: 10px 12px 10px 14px;
+        padding: 10px 10px 10px 14px;
     }
 
-    .hero-ip-text {
-        font-size: 13px;
-    }
-
-    /* Калькулятор валюты на телефоне */
     .currency-section {
-        margin-top: 16px;
-        padding: 18px 16px;
-        border-radius: 18px;
-    }
-
-    .currency-top {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
-        margin-bottom: 16px;
+        margin-top: 18px;
+        padding: 20px 16px;
     }
 
     .currency-title-block {
-        gap: 12px;
         align-items: flex-start;
+        gap: 12px;
     }
 
     .currency-icon {
         width: 40px;
         height: 40px;
-        border-radius: 11px;
     }
 
     .currency-title-block h2 {
-        font-size: 16px;
-        line-height: 1.25;
-    }
-
-    .rate-row {
-        gap: 6px;
-    }
-
-    .rate-info {
-        font-size: 12px;
-    }
-
-    .bonus-hint {
-        font-size: 11px;
-        padding: 3px 8px;
+        font-size: 17px;
     }
 
     .currency-right-stats {
-        min-width: 0;
         width: 100%;
         justify-content: space-between;
         background: var(--bg-input);
         padding: 10px 14px;
-        border-radius: 12px;
+        border-radius: var(--radius-md);
         border: 1px solid var(--border);
     }
 
     .currency-big-counter {
-        font-size: 22px;
+        font-size: 24px;
         margin-left: auto;
-    }
-
-    .currency-big-counter small {
-        font-size: 12px;
-    }
-
-    input[type="range"] {
-        height: 8px;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-        width: 28px;
-        height: 28px;
     }
 
     .preset-buttons {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 7px;
-        margin-bottom: 18px;
+        gap: 8px;
     }
 
     .preset-btn {
-        padding: 9px 4px;
+        padding: 9px 6px;
         font-size: 12px;
-        flex-direction: column;
-        gap: 2px;
-        min-height: 44px;
     }
 
     .currency-bottom {
         flex-direction: column;
         align-items: stretch;
-        gap: 14px;
-        padding-top: 16px;
+        gap: 16px;
     }
 
     .calc-inputs {
         display: grid;
-        grid-template-columns: 1fr auto 1.35fr;
+        grid-template-columns: 1fr auto 1fr;
         gap: 8px;
         align-items: end;
-    }
-
-    .calc-field {
-        min-width: 0;
     }
 
     .calc-field input {
         width: 100%;
         padding: 10px 12px;
-        height: 44px;
+        font-size: 15px;
     }
 
     .coins-output-box {
         width: 100%;
-        height: 44px;
         padding: 0 12px;
         font-size: 14px;
-    }
-
-    .coins-total-val {
-        font-size: 14px;
-    }
-
-    .coins-breakdown {
-        font-size: 11px;
     }
 
     .calc-equals {
         margin-top: 0;
         padding-bottom: 10px;
-        font-size: 16px;
+        font-size: 18px;
     }
 
-    .buy-btn-wrapper {
-        width: 100%;
-    }
-
+    .buy-btn-wrapper,
     .btn-currency-buy {
         width: 100%;
-        padding: 14px;
-        transform: none !important;
-        animation: none !important;
     }
 
-    .btn-shockwave,
-    .particles-container {
-        display: none !important;
-    }
-
-    /* Магазин и категории */
     .shop-wrapper {
-        margin-top: 26px;
-        margin-bottom: 24px;
-    }
-
-    .shop-header-bar {
-        margin-bottom: 14px;
-        gap: 12px;
+        margin-top: 30px;
+        margin-bottom: 36px;
     }
 
     .shop-header-bar h2 {
         font-size: 22px;
     }
 
-    .recent-purchases {
-        width: 100%;
-        padding: 8px 12px;
-    }
-
-    .shop-layout {
-        gap: 14px;
-    }
-
-    /* Sticky-полоса категорий под шапкой */
     .categories-sidebar {
-        position: sticky;
-        top: 53px;
-        z-index: 90;
-        background: rgba(18, 18, 21, 0.92);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        border: none;
-        border-bottom: 1px solid var(--border);
-        border-radius: 0;
-        margin: 0 -14px;
-        padding: 10px 14px;
-        gap: 8px;
-    }
-
-    .sidebar-title {
-        display: none;
+        padding: 10px;
+        border-radius: var(--radius-md);
     }
 
     .cat-btn {
-        padding: 9px 14px;
+        padding: 10px 14px;
         font-size: 13px;
-        border-radius: 10px;
-        background: var(--bg-card);
-        border: 1px solid var(--border);
     }
 
-    .cat-btn.active {
-        border-color: var(--accent);
-    }
-
-    .category-divider {
-        margin: 22px 0 14px;
-    }
-
-    .category-divider span {
-        font-size: 11px;
-        padding: 0 12px;
-    }
-
-    /* Сетка карточек в 2 колонки */
     .products-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
     }
 
     .product-card {
         padding: 10px;
-        border-radius: 16px;
-    }
-
-    .badge-tag {
-        top: 16px;
-        right: 16px;
-        font-size: 9px;
-        padding: 3px 6px;
+        border-radius: var(--radius-md);
     }
 
     .product-art {
-        aspect-ratio: 1.15 / 1;
-        border-radius: 12px;
         margin-bottom: 10px;
-    }
-
-    .product-art svg {
-        width: 50%;
-        height: 50%;
     }
 
     .product-name {
         font-size: 14px;
-        margin-bottom: 3px;
     }
 
     .product-sub {
         font-size: 11px;
-        line-height: 1.35;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -1904,84 +1729,40 @@ input[type="range"]::-webkit-slider-thumb {
     }
 
     .price-value {
-        font-size: 16px;
+        font-size: 15px;
     }
 
     .btn-card-buy {
         width: 100%;
-        padding: 10px 12px;
-        font-size: 13px;
-        border-radius: 10px;
-    }
-
-    /* Модальное окно как нативная шторка снизу (Bottom Sheet) */
-    .modal-overlay {
-        align-items: flex-end;
-        padding: 0;
+        padding: 9px 10px;
+        font-size: 12px;
     }
 
     .modal-window {
-        max-width: 100%;
-        border-radius: 24px 24px 0 0;
-        padding: 22px 18px calc(24px + env(safe-area-inset-bottom));
-        max-height: 90dvh;
-        border-left: none;
-        border-right: none;
-        border-bottom: none;
-        animation: sheetUp 0.26s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .modal-window::before {
-        content: '';
-        display: block;
-        width: 40px;
-        height: 4px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 99px;
-        margin: -6px auto 14px;
-    }
-
-    @keyframes sheetUp {
-        from { transform: translateY(100%); }
-        to   { transform: translateY(0); }
-    }
-
-    /* Футер и тост */
-    .footer {
-        padding: 24px 0;
-    }
-
-    .footer-inner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 14px;
-    }
-
-    .footer-links {
-        gap: 14px;
+        padding: 20px 16px;
     }
 
     .toast {
+        bottom: 78px;
         left: 14px;
         right: 14px;
-        bottom: calc(80px + env(safe-area-inset-bottom));
         text-align: center;
     }
 
-    /* Нижний мобильный Tab-Barr */
     .mobile-tabbar {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
-        z-index: 95;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        background: rgba(20, 21, 26, 0.94);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
+        height: 64px;
+        background: rgba(18, 18, 21, 0.94);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         border-top: 1px solid var(--border);
-        padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
+        z-index: 900;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
     }
 
     .tabbar-item {
@@ -1997,13 +1778,12 @@ input[type="range"]::-webkit-slider-thumb {
         font-size: 10px;
         font-weight: 700;
         cursor: pointer;
-        padding: 4px 0;
-        transition: color 0.15s ease;
+        transition: color 0.2s ease;
     }
 
     .tabbar-item svg {
-        width: 21px;
-        height: 21px;
+        width: 20px;
+        height: 20px;
     }
 
     .tabbar-item.active,
