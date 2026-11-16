@@ -1,4 +1,4 @@
-// Детализированные и объемные иконки для привилегий и кейсо
+// Детализированные и объемные иконки для привилегий и кейсов
 const icons = {
     sword: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
   <circle cx="12" cy="12" r="4.8"/>
@@ -160,6 +160,10 @@ const productsArea = document.getElementById('products-area');
 const catBtns = document.querySelectorAll('.cat-btn');
 let currentFilter = 'all';
 
+function isAlwaysAnimatedDevice() {
+    return window.matchMedia('(hover: none), (max-width: 768px)').matches;
+}
+
 function createCardHTML(item, index) {
     let displayPrice = '';
     if (item.category === 'cases') {
@@ -185,6 +189,13 @@ function createCardHTML(item, index) {
             </div>
         </div>
     `;
+}
+
+function initMobileContinuousAnimations() {
+    if (!productsArea || !isAlwaysAnimatedDevice()) return;
+    productsArea.querySelectorAll('.product-card').forEach(card => {
+        startCardAnimation(card, true);
+    });
 }
 
 function renderProducts(filter = 'all', animate = true) {
@@ -215,6 +226,8 @@ function renderProducts(filter = 'all', animate = true) {
             grid.innerHTML = filtered.map((item, idx) => createCardHTML(item, idx)).join('');
             productsArea.appendChild(grid);
         }
+
+        initMobileContinuousAnimations();
     };
 
     if (!animate || !productsArea) {
@@ -971,7 +984,7 @@ function copyIP() {
     }
 }
 
-// === АНИМАЦИИ КАРТОЧЕК (ДЕСКТОП + ТАЧ НА МОБИЛКЕ) ===
+// === АНИМАЦИИ КАРТОЧЕК (ДЕСКТОП ПО HOVER / МОБИЛКА ВСЕГДА АКТИВНЫ) ===
 const hoverKeyframes = {
     'anim-crown': [
         { transform: 'translateY(0) scale(1.12) rotate(0deg)' },
@@ -1024,6 +1037,61 @@ const hoverKeyframes = {
     'anim-case-kits':   [{ transform: 'scale(1.08)' }, { transform: 'scale(1.13)', offset: 0.4 }, { transform: 'scale(1.08)' }],
     'anim-case-money':  [{ transform: 'scale(1.08)' }, { transform: 'scale(1.13)', offset: 0.4 }, { transform: 'scale(1.08)' }],
     'anim-case-prefix': [{ transform: 'scale(1.08)' }, { transform: 'scale(1.13)', offset: 0.4 }, { transform: 'scale(1.08)' }]
+};
+
+const ambientKeyframes = {
+    'anim-crown': [
+        { transform: 'translateY(0) scale(1.02) rotate(0deg)' },
+        { transform: 'translateY(-4px) scale(1.06) rotate(-6deg)' },
+        { transform: 'translateY(-1px) scale(1.03) rotate(0deg)' },
+        { transform: 'translateY(-4px) scale(1.06) rotate(6deg)' },
+        { transform: 'translateY(0) scale(1.02) rotate(0deg)' }
+    ],
+    'anim-spin': [
+        { transform: 'scale(1.02) rotate(0deg)' },
+        { transform: 'scale(1.08) rotate(180deg)' },
+        { transform: 'scale(1.02) rotate(360deg)' }
+    ],
+    'anim-radiant': [
+        { transform: 'scale(1.02)' },
+        { transform: 'scale(1.06)' },
+        { transform: 'scale(1.02)' }
+    ],
+    'anim-float': [
+        { transform: 'translateY(0) scale(1.02)' },
+        { transform: 'translateY(-4px) scale(1.05)' },
+        { transform: 'translateY(0) scale(1.02)' }
+    ],
+    'anim-fusion': [
+        { transform: 'scale(1.04) rotate(0deg)', offset: 0, easing: 'cubic-bezier(0.45, 0.05, 0.55, 0.95)' },
+        { transform: 'scale(1.04) rotate(60deg)', offset: 0.65 },
+        { transform: 'scale(1.04) rotate(60deg)', offset: 1 }
+    ],
+    'anim-sway': [
+        { transform: 'translateY(0) scale(1.02)' },
+        { transform: 'translateY(-3px) scale(1.05)' },
+        { transform: 'translateY(0) scale(1.02)' }
+    ],
+    'anim-pulse': [
+        { transform: 'scale(1.02)' },
+        { transform: 'scale(1.06)' },
+        { transform: 'scale(1.02)' }
+    ],
+    'anim-orbit': [
+        { transform: 'scale(1.02) rotate(-3deg)' },
+        { transform: 'scale(1.06) rotate(3deg)' },
+        { transform: 'scale(1.02) rotate(-3deg)' }
+    ],
+    'anim-unlock': [
+        { transform: 'translateY(0) scale(1) rotate(0deg)' },
+        { transform: 'translateY(-3px) scale(1.07) rotate(-8deg)' },
+        { transform: 'translateY(0) scale(1) rotate(0deg)' }
+    ],
+    'anim-case-donate': [{ transform: 'scale(1.02)' }, { transform: 'scale(1.06)', offset: 0.4 }, { transform: 'scale(1.02)' }],
+    'anim-case-hypes':  [{ transform: 'scale(1.02)' }, { transform: 'scale(1.06)', offset: 0.4 }, { transform: 'scale(1.02)' }],
+    'anim-case-kits':   [{ transform: 'scale(1.02)' }, { transform: 'scale(1.06)', offset: 0.4 }, { transform: 'scale(1.02)' }],
+    'anim-case-money':  [{ transform: 'scale(1.02)' }, { transform: 'scale(1.06)', offset: 0.4 }, { transform: 'scale(1.02)' }],
+    'anim-case-prefix': [{ transform: 'scale(1.02)' }, { transform: 'scale(1.06)', offset: 0.4 }, { transform: 'scale(1.02)' }]
 };
 
 const hoverDurations = {
@@ -1107,7 +1175,7 @@ function smoothResetElement(el, duration = 450) {
     });
 }
 
-function startCardAnimation(card) {
+function startCardAnimation(card, isAmbient = false) {
     const art = card.querySelector('.product-art');
     const svg = art ? art.querySelector('svg') : null;
     if (!svg || !svg.animate) return;
@@ -1118,11 +1186,14 @@ function startCardAnimation(card) {
     const targetEl = animType === 'anim-fusion' ? (svg.querySelector('.fusion-spin') || svg) : svg;
     if (targetEl._activeAnim) targetEl._activeAnim.cancel();
 
-    const isUnlock = animType === 'anim-unlock';
-    targetEl._activeAnim = targetEl.animate(hoverKeyframes[animType], {
-        duration: hoverDurations[animType] || 1500,
-        iterations: isUnlock ? 1 : Infinity,
-        fill: isUnlock ? 'forwards' : 'none',
+    const frames = isAmbient ? ambientKeyframes[animType] : hoverKeyframes[animType];
+    const isSingleRun = !isAmbient && animType === 'anim-unlock';
+    const baseDuration = hoverDurations[animType] || 1500;
+
+    targetEl._activeAnim = targetEl.animate(frames, {
+        duration: isAmbient ? Math.round(baseDuration * 1.25) : baseDuration,
+        iterations: isSingleRun ? 1 : Infinity,
+        fill: isSingleRun ? 'forwards' : 'none',
         easing: 'ease-in-out'
     });
 
@@ -1133,7 +1204,7 @@ function startCardAnimation(card) {
             if (!part || !part.animate) return;
             if (part._activeAnim) part._activeAnim.cancel();
             part._activeAnim = part.animate(cfg.frames, {
-                duration: cfg.duration,
+                duration: isAmbient ? Math.round(cfg.duration * 1.2) : cfg.duration,
                 iterations: Infinity,
                 easing: cfg.easing || 'ease-in-out'
             });
@@ -1142,6 +1213,8 @@ function startCardAnimation(card) {
 }
 
 function stopCardAnimation(card) {
+    if (isAlwaysAnimatedDevice()) return;
+
     const art = card.querySelector('.product-art');
     const svg = art ? art.querySelector('svg') : null;
     if (!svg) return;
@@ -1190,29 +1263,18 @@ function stopCardAnimation(card) {
 
 if (productsArea) {
     productsArea.addEventListener('mouseover', (e) => {
+        if (isAlwaysAnimatedDevice()) return;
         const card = e.target.closest('.product-card');
         if (!card || card.contains(e.relatedTarget)) return;
-        startCardAnimation(card);
+        startCardAnimation(card, false);
     });
 
     productsArea.addEventListener('mouseout', (e) => {
+        if (isAlwaysAnimatedDevice()) return;
         const card = e.target.closest('.product-card');
         if (!card || card.contains(e.relatedTarget)) return;
         stopCardAnimation(card);
     });
-
-    // Поддержка касаний на телефоне
-    productsArea.addEventListener('touchstart', (e) => {
-        const card = e.target.closest('.product-card');
-        if (!card) return;
-        startCardAnimation(card);
-    }, { passive: true });
-
-    productsArea.addEventListener('touchend', (e) => {
-        const card = e.target.closest('.product-card');
-        if (!card) return;
-        setTimeout(() => stopCardAnimation(card), 900);
-    }, { passive: true });
 }
 
 // === ПОДСВЕТКА АКТИВНОЙ ВКЛАДКИ В МОБИЛЬНОМ ТАББАРЕ ПРИ СКРОЛЛЕ ===
