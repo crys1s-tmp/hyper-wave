@@ -1017,7 +1017,6 @@ input[type="range"]::-moz-range-thumb {
     transform-origin: center;
     will-change: transform, filter;
     overflow: visible !important;
-    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
 }
 
 .product-card:hover .product-art svg {
@@ -1874,5 +1873,22 @@ input[type="range"]::-moz-range-thumb {
     .tabbar-item.active,
     .tabbar-item:active {
         color: var(--accent);
+    }
+
+    /* Анимация иконок только для устройств с поддержкой наведения (ПК) */
+@media (hover: hover) {
+    .product-card:hover .product-art svg {
+        filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.75));
+    }
+    .product-card:hover .anim-fusion svg {
+        transform: scale(1.15);
+    }
+}
+
+/* На мобильных и тач-устройствах анимации полностью отключены */
+@media (hover: none) {
+    .product-card .product-art svg {
+        animation: none !important;
+        transform: none !important;
     }
 }
