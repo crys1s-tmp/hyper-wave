@@ -348,7 +348,7 @@ body {
     justify-content: center;
 }
 
-/* === ДИНАМИЧЕСКОЕ СВЕЧЕНИЕ БЛОКА ВАЛЮТЫ === */
+/* === ДИНАМИЧЕСКОЕ СВЕЧЕНИЕ БЛОКА ВАЛЮТЫ == */
 .currency-section {
     margin-top: 28px;
     background: var(--bg-surface);
