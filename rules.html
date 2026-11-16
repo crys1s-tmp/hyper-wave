@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>HyperWave — Правила сервера</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
@@ -84,8 +84,6 @@
             color: #4ade80;
             border-color: rgba(34, 197, 94, 0.25);
         }
-
-        /* Выпадающие списки */
         details.rule-details {
             margin-top: 10px;
             background: rgba(255, 255, 255, 0.025);
@@ -178,8 +176,10 @@
         .mod-tag.allowed span {
             color: #4ade80;
         }
-        .nav-links a.active {
-            color: var(--accent);
+        @media (max-width: 640px) {
+            .rules-header h1 { font-size: 26px; }
+            .rule-card { padding: 18px 16px; }
+            .mods-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -196,11 +196,11 @@
                     <span class="logo-text">HYPER<span class="accent">WAVE</span></span>
                 </a>
                 <nav class="nav-links">
-    <a href="index.html">Магазин</a>
-    <a href="rules.html" class="active">Правила</a>
-    <a href="#">Википедия</a>
-    <a href="#">Поддержка</a>
-</nav>
+                    <a href="index.html">Магазин</a>
+                    <a href="rules.html" class="active">Правила</a>
+                    <a href="#">Википедия</a>
+                    <a href="#">Поддержка</a>
+                </nav>
             </div>
 
             <div class="nav-right">
@@ -208,7 +208,7 @@
                     <span class="pulse-dot"></span>
                     <span>Онлайн: <strong>1 842</strong> / 5000</span>
                 </div>
-                <button class="ip-header-btn" onclick="copyIP()">
+                <button type="button" class="ip-header-btn" onclick="copyIP()">
                     <div class="ip-header-meta">
                         <span class="ip-label">Нажми, чтобы скопировать</span>
                         <span class="ip-val" id="server-ip">mc.hyperwave.ru</span>
@@ -528,6 +528,7 @@
                     </div>
                 </div>
             </section>
+
             <!-- 6. Иерархия персонала и памятка игроку -->
             <section class="rule-card">
                 <h2>6. Взаимодействие с персоналом (Памятка игроку)</h2>
@@ -537,13 +538,13 @@
                         <details class="rule-details">
                             <summary>Иерархия команды HyperWave (6 ступеней)</summary>
                             <div class="sub-rules">
-    <div class="sub-rule-item"><span class="sub-num">6.1.1</span> <strong class="staff-rank-title role-helper">HELPER</strong> — отвечает на вопросы игроков в чате, следит за порядком (борьба с матом, спамом и CAPS LOCK), выдает лайтовые наказания исключительно по чату. На проверки не вызывает.</div>
-    <div class="sub-rule-item"><span class="sub-num">6.1.2</span> <strong class="staff-rank-title role-senior-helper">ST.HELPER</strong> — опытный сотрудник чат-состава. Имеет расширенные полномочия и право выдавать временные блокировки (баны) за грубые нарушения правил общения (реклама, жесткие оскорбления).</div>
-    <div class="sub-rule-item"><span class="sub-num">6.1.3</span> <strong class="staff-rank-title role-moderator">MODER</strong> — игровой силовой блок. Выдает баны строго <strong>по реку</strong> (видеозаписи нарушения, присылаемой в Discord/Telegram) либо если находится в режиме спектатора (наблюдения) и своими глазами видит нарушение.</div>
-    <div class="sub-rule-item"><span class="sub-num">6.1.4</span> <strong class="staff-rank-title role-senior-moderator">ST.MODER</strong> — технический надзор. Самостоятельно вызывает игроков на проверки на читы, банит за нарушения, связанные с постройками (гриф, ловушки), и проверяет торговые площадки (FunPay).</div>
-    <div class="sub-rule-item"><span class="sub-num">6.1.5</span> <strong class="staff-rank-title role-chief-moderator">GL.MODER</strong> — высшая ступень контроля безопасности. Полномочен полностью <strong>отключать аккаунты</strong> за вредительство, дюпы и махинации; борется с бот-фермами и продавцами валюты. Курирует стажеров и имеет прямую связь с вышкой.</div>
-    <div class="sub-rule-item"><span class="sub-num">6.1.6</span> <strong class="staff-rank-title role-curator">CURATOR</strong> — руководство проектом. Отвечает за набор людей в состав, утверждение кастомных префиксов, решение глобальных вопросов и координацию всех отделов.</div>
-</div>
+                                <div class="sub-rule-item"><span class="sub-num">6.1.1</span> <strong class="staff-rank-title role-helper">HELPER</strong> — отвечает на вопросы игроков в чате, следит за порядком (борьба с матом, спамом и CAPS LOCK), выдает лайтовые наказания исключительно по чату. На проверки не вызывает.</div>
+                                <div class="sub-rule-item"><span class="sub-num">6.1.2</span> <strong class="staff-rank-title role-senior-helper">ST.HELPER</strong> — опытный сотрудник чат-состава. Имеет расширенные полномочия и право выдавать временные блокировки (баны) за грубые нарушения правил общения (реклама, жесткие оскорбления).</div>
+                                <div class="sub-rule-item"><span class="sub-num">6.1.3</span> <strong class="staff-rank-title role-moderator">MODER</strong> — игровой силовой блок. Выдает баны строго <strong>по реку</strong> (видеозаписи нарушения, присылаемой в Discord/Telegram) либо если находится в режиме спектатора (наблюдения) и своими глазами видит нарушение.</div>
+                                <div class="sub-rule-item"><span class="sub-num">6.1.4</span> <strong class="staff-rank-title role-senior-moderator">ST.MODER</strong> — технический надзор. Самостоятельно вызывает игроков на проверки на читы, банит за нарушения, связанные с постройками (гриф, ловушки), и проверяет торговые площадки (FunPay).</div>
+                                <div class="sub-rule-item"><span class="sub-num">6.1.5</span> <strong class="staff-rank-title role-chief-moderator">GL.MODER</strong> — высшая ступень контроля безопасности. Полномочен полностью <strong>отключать аккаунты</strong> за вредительство, дюпы и махинации; борется с бот-фермами и продавцами валюты. Курирует стажеров и имеет прямую связь с вышкой.</div>
+                                <div class="sub-rule-item"><span class="sub-num">6.1.6</span> <strong class="staff-rank-title role-curator">CURATOR</strong> — руководство проектом. Отвечает за набор людей в состав, утверждение кастомных префиксов, решение глобальных вопросов и координацию всех отделов.</div>
+                            </div>
                         </details>
                     </div>
 
@@ -594,15 +595,41 @@
     </footer>
 
     <div class="toast" id="toast">IP адрес mc.hyperwave.ru скопирован!</div>
+
+    <nav class="mobile-tabbar" aria-label="Мобильная навигация">
+        <a href="index.html#shop" class="tabbar-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span>Магазин</span>
+        </a>
+        <a href="index.html#currency" class="tabbar-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="6 3 18 3 22 9 12 22 2 9 6 3"></polygon>
+                <line x1="2" y1="9" x2="22" y2="9"></line>
+            </svg>
+            <span>Хайпики</span>
+        </a>
+        <a href="rules.html" class="tabbar-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            <span>Правила</span>
+        </a>
+        <button type="button" class="tabbar-item" onclick="copyIP()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>IP сервера</span>
+        </button>
+    </nav>
+
     <script src="script.js"></script>
-    @media (max-width: 768px) {
-    .rules-header { margin: 18px 0 18px; }
-    .rules-header h1 { font-size: 24px; }
-    .rules-header p { font-size: 13px; }
-    .rule-card { padding: 18px 16px; border-radius: 18px; }
-    .rule-card h2 { font-size: 17px; }
-    .rule-item { font-size: 13px; }
-    .mods-grid { grid-template-columns: 1fr; }
-}
 </body>
 </html>
