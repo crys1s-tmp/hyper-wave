@@ -114,19 +114,6 @@ const icons = {
     <rect x="11.4" y="14.8" width="1.2" height="1.2" fill="currentColor" stroke="none" />
     <path d="M5.75 13.75V18.25C6.7165 18.25 7.5 19.0335 7.5 20H16.5C16.5 19.0335 17.2835 18.25 18.25 18.25V13.75" />
   </g>
-</svg>`,
-    prefix: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-  <g class="case-top" style="transform-origin: 7.5px 5px;">
-    <path d="M6.5 2.5H15.5L18.5 5L15.5 7.5H6.5C5.94772 7.5 5.5 7.05228 5.5 6.5V3.5C5.5 2.94772 5.94772 2.5 6.5 2.5Z" />
-    <circle cx="8" cy="5" r="0.6" fill="currentColor" stroke="none" /><path d="M10.5 5H14.5" />
-  </g>
-  <g class="case-chest" style="transform-origin: 12px 16px;">
-    <path d="M3 21.5H21V13C21 11.067 19.433 9.5 17.5 9.5H6.5C4.567 9.5 3 11.067 3 13V21.5Z" />
-    <path d="M5.75 9.8V13.75" /><path d="M18.25 9.8V13.75" /><path d="M3 13.75H9.75" /><path d="M14.25 13.75H21" />
-    <path d="M9.75 13.75H14.25V15.5C14.25 16.7426 13.2426 17.75 12 17.75C10.7574 17.75 9.75 16.7426 9.75 15.5V13.75Z" />
-    <rect x="11.4" y="14.8" width="1.2" height="1.2" fill="currentColor" stroke="none" />
-    <path d="M5.75 13.75V18.25C6.7165 18.25 7.5 19.0335 7.5 20H16.5C16.5 19.0335 17.2835 18.25 18.25 18.25V13.75" />
-  </g>
 </svg>`
 };
 
@@ -150,7 +137,6 @@ const products = [
     { id: 10, name: "Кейс с хайпиками", category: "cases", catLabel: "Кейс", isDonatCase: false, basePrice: 50, priceLabel: "За 1 шт.", presets: [1, 3, 5], discounts: [0, 10, 20], desc: "Выпадает от 50 до 15 000 Хайпиков на счет.", badge: "", bg: "linear-gradient(135deg, #f59e0b, #b45309)", icon: icons.hypes, anim: "anim-case-hypes" },
     { id: 11, name: "Кейс с китами", category: "cases", catLabel: "Кейс", isDonatCase: false, basePrice: 40, priceLabel: "За 1 шт.", presets: [1, 3, 5], discounts: [0, 10, 20], desc: "Редкие наборы брони, инструментов и ресурсов.", badge: "", bg: "linear-gradient(135deg, #ffcd00, #d97706)", icon: icons.kits, anim: "anim-case-kits" },
     { id: 12, name: "Кейс с валютой", category: "cases", catLabel: "Кейс", isDonatCase: false, basePrice: 15, priceLabel: "За 1 шт.", presets: [3, 10, 15], discounts: [0, 12, 25], desc: "Игровые монеты для аукциона и торговцев.", badge: "", bg: "linear-gradient(135deg, #10b981, #047857)", icon: icons.money, anim: "anim-case-money" },
-    { id: 13, name: "Кейс с префиксами", category: "cases", catLabel: "Кейс", isDonatCase: false, basePrice: 10, priceLabel: "За 1 шт.", presets: [3, 10, 15], discounts: [0, 15, 30], desc: "Уникальные титулы и префиксы перед ником в чате.", badge: "", bg: "linear-gradient(135deg, #3b82f6, #1d4ed8)", icon: icons.prefix, anim: "anim-case-prefix" },
 
     { id: 14, name: "Разбан аккаунта", category: "services", catLabel: "Услуга", price: 249, priceLabel: "Разово", desc: "Снятие блокировки аккаунта на всех режимах.", badge: "", bg: "linear-gradient(135deg, #f43f5e, #9f1239)", icon: icons.unlock, anim: "anim-unlock" },
     { id: 15, name: "Размут аккаунта", category: "services", catLabel: "Услуга", price: 99, priceLabel: "Разово", desc: "Мгновенное снятие блокировки игрового чата.", badge: "", bg: "linear-gradient(135deg, #64748b, #334155)", icon: icons.unlock, anim: "anim-unlock" }
