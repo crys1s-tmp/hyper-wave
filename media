@@ -772,7 +772,7 @@ input[type="range"]::-moz-range-thumb {
     left: 0;
     top: 0;
     color: #ffcd00;
-    filter: drop-shadow(0 0 6px rgba(255, 205, 0, 0.95)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.5));
+    filter: drop-shadow(0 0 4px rgba(255, 205, 0, 0.8));
     pointer-events: none;
     will-change: transform, opacity;
     animation: particleBurst 1.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
