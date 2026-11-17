@@ -15,12 +15,15 @@
     --radius-sm: 10px;
 }
 
-* {
+*, *::before, *::after {
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+* {
     margin: 0;
     padding: 0;
     font-family: 'Montserrat', sans-serif;
-    -webkit-tap-highlight-color: transparent;
 }
 
 html {
