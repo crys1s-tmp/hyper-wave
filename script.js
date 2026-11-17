@@ -194,6 +194,8 @@ function createCardHTML(item, index) {
 function initMobileContinuousAnimations() {
     if (!productsArea || !isAlwaysAnimatedDevice()) return;
     productsArea.querySelectorAll('.product-card').forEach(card => {
+        const art = card.querySelector('.product-art');
+        if (art && art.classList.contains('anim-unlock')) return;
         startCardAnimation(card, true);
     });
 }
@@ -487,9 +489,10 @@ function spawnParticles(intensity) {
         currencyBuyBtn.querySelectorAll('.btn-shockwave').forEach(w => w.remove());
     }
 
-    function createBatch() {
+   function createBatch() {
         particlesContainer.innerHTML = '';
-        const count = intensity * 5;
+        const isMobile = window.innerWidth <= 768;
+        const count = isMobile ? Math.max(3, intensity * 2) : intensity * 5;
         for (let i = 0; i < count; i++) {
             const p = document.createElement('span');
             p.className = 'buy-particle';
