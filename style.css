@@ -1445,6 +1445,8 @@ input[type="range"]::-moz-range-thumb {
     display: flex;
     align-items: center;
     justify-content: center;
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 .wave-ring {
@@ -1626,9 +1628,17 @@ input[type="range"]::-moz-range-thumb {
     }
 
     .currency-section {
-        margin-top: 16px;
-        padding: 18px 14px;
-    }
+    margin-top: 28px;
+    background: var(--bg-surface);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+    overflow: hidden;
+    transform: translateZ(0);
+}
 
     .currency-title-block {
         align-items: flex-start;
