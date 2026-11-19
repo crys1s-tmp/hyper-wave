@@ -1286,3 +1286,18 @@ if (tabbarItems.length > 0) {
 // Инициализация при загрузке
 syncCurrency(100, true);
 renderProducts('all', false);
+
+window.addEventListener('load', () => {
+    const refreshLayout = () => {
+        syncCurrency(parseInt(rubInput?.value, 10) || 100, true);
+        if (slider) {
+            updateSliderFill(parseInt(rubInput?.value, 10) || 100);
+        }
+    };
+
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(refreshLayout);
+    } else {
+        refreshLayout();
+    }
+});
