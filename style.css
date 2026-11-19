@@ -111,13 +111,9 @@ body {
 .logo-badge {
     width: 34px;
     height: 34px;
-    background: linear-gradient(135deg, #ffcd00, #ff8800);
-    color: #121215;
     border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
+    object-fit: cover;
+    display: block;
     flex-shrink: 0;
 }
 
@@ -1586,10 +1582,9 @@ input[type="range"]::-moz-range-thumb {
     }
 
     .logo-badge {
-        width: 28px;
-        height: 28px;
-        font-size: 14px;
-        border-radius: 8px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
     }
 
     .ip-header-btn {
