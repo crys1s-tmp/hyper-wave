@@ -109,14 +109,13 @@ body {
 }
 
 .logo-badge {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    object-fit: cover;
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    object-fit: contain;
     display: block;
     flex-shrink: 0;
 }
-
 .nav-links {
     display: flex;
     gap: 24px;
@@ -1582,9 +1581,9 @@ input[type="range"]::-moz-range-thumb {
     }
 
     .logo-badge {
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
     }
 
     .ip-header-btn {
